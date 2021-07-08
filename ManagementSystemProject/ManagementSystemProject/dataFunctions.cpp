@@ -5,6 +5,7 @@
 #include <exception> 
 #include "dataFunctions.h"
 #include "dataStructures.h"
+
 using namespace std;
 
 string cinLine()
@@ -52,19 +53,33 @@ void PROJECTS::displayProjects()
 	cout << "Id of the creator: " << this->idCreator << endl;
 	cout << "Id of the last changer: " << this->idLastChange << endl;
 }
-/*void TASKS::displayTasks()
+
+string getTaskStatusName(TASK_STATUS& ts)
+{
+	switch (ts)
+	{
+	case TASK_STATUS::PENDING: return "pending";
+	case TASK_STATUS::IN_PROGRESS: return "in progress";
+	case TASK_STATUS::COMPLETED: return "completed";
+	};
+}
+
+void TASKS::displayTasks()
 {
 	cout << "Task id: " << this->id << endl;
 	cout << "Project id: " << this->projectId << endl;
 	cout << "User id: " << this->userId << endl;
 	cout << "Title: " << this->title << endl;
 	cout << "Description: " << this->description << endl;
-	cout << "Status: "<< this->status1<< endl;
+	cout << "Status: " << getTaskStatusName(this->status) << endl;
 	cout << "Date of creation: " << this->dateOfCreation << endl;
 	cout << "Id of the creator: " << this->idCreator << endl;
 	cout << "Id of the last changer: " << this->idLastChange << endl;
 
-}*/
+	// task.status = (TASK_STATUS)result.get<int>("Status")
+
+}
+
 void LOGS::displayLogs() {
 	cout << "Log id: " << this->id << endl;
 	cout << "Task id: " << this->taskId << endl;
@@ -151,4 +166,37 @@ void editUser(nanodbc::connection conn)
 	statement.bind(5, &id);
 
 	execute(statement);
+}
+
+vector<USER> getAllUsers(nanodbc::connection conn)
+{
+	vector<USER> users;
+
+	nanodbc::statement statement(conn);
+	nanodbc::prepare(statement, NANODBC_TEXT(R"( 
+        SELECT *
+            FROM [ManagementSystemProject].[dbo].[Users]
+    )"));
+
+	auto result = execute(statement);
+
+	while (result.next())
+	{
+		USER user;
+		user.id = result.get<int>("Id");
+		user.username = result.get<nanodbc::string>("Username", "");
+		user.password = result.get<nanodbc::string>("Password", "");
+		user.firstName = result.get<nanodbc::string>("FirstName", "");
+		user.lastName = result.get<nanodbc::string>("LastName", "");
+		user.dateOfCreation = result.get<nanodbc::string>("DateOfCreation", "");
+		user.idCreator = result.get<int>("Id",0);
+		user.dateOfCreation = result.get<nanodbc::string>("DateOfCreation", "");
+		user.idLastChange = result.get<int>("Id",0);
+		user.isAdmin = result.get<int>("isAdmin");
+		
+
+		users.push_back(user);
+	}
+
+	return users;
 }

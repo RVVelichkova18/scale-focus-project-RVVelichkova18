@@ -39,7 +39,12 @@ bool menu(nanodbc::connection conn)
 		editUser(conn);
 		break;
 	}
-	case 3:
+	case 3: {
+		system("cls");
+		getAllUsers(conn);
+		break;
+	}
+	case 4:
 		return false;
 	default: 
 		cout << "Try again! " << endl;

@@ -42,13 +42,19 @@ struct PROJECTS {
 	void displayProjects();
 };
 
+enum class TASK_STATUS {
+	PENDING,
+	IN_PROGRESS,
+	COMPLETED
+};
+
 struct TASKS {
 	int id = 0;
 	int projectId = 0;
 	int userId = 0;
 	std::string title = "";
 	std::string description = "";
-	//enum status { pending , inProgress , completed } status1;
+	TASK_STATUS status;
 	std::string dateOfCreation = "";
 	int idCreator = 0;
 	std::string dateOfLastChange = "";
