@@ -24,9 +24,9 @@ struct USER {
 struct TEAMS {
 	int id = 0;
 	std::string title = "";
-	std::string dateOfCreation = "";
+	nanodbc::timestamp dateOfCreation = nanodbc::timestamp{};
 	int idCreator = 0;
-	std::string dateOfLastChange = "";
+	nanodbc::timestamp dateOfLastChange = nanodbc::timestamp{};
 	int idLastChange = 0;
 	void displayTeams();
 };
@@ -35,9 +35,9 @@ struct PROJECTS {
 	int id = 0;
 	std::string title = "";
 	std::string description = "";
-	std::string dateOfCreation = "";
+	nanodbc::timestamp dateOfCreation = nanodbc::timestamp{};
 	int idCreator = 0;
-	std::string dateOfLastChange = "";
+	nanodbc::timestamp dateOfLastChange = nanodbc::timestamp{};
 	int idLastChange = 0;
 	void displayProjects();
 };
@@ -55,9 +55,9 @@ struct TASKS {
 	std::string title = "";
 	std::string description = "";
 	TASK_STATUS status;
-	std::string dateOfCreation = "";
+	nanodbc::timestamp dateOfCreation = nanodbc::timestamp{};
 	int idCreator = 0;
-	std::string dateOfLastChange = "";
+	nanodbc::timestamp dateOfLastChange = nanodbc::timestamp{};
 	int idLastChange = 0;
 	void displayTasks();
 };

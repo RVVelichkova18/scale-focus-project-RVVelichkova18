@@ -140,7 +140,7 @@ vector<USER> getUsers(nanodbc::connection conn)
 		user.lastName = result.get<nanodbc::string>("LastName", "");
 		user.dateOfCreation = result.get<nanodbc::timestamp>("DateOfCreation", nanodbc::timestamp{});
 		user.idCreator = result.get<int>("idCreator", 0);
-		user.dateOfCreation = result.get<nanodbc::timestamp>("DateOfLastChange", nanodbc::timestamp{});
+		user.dateOfLastChange = result.get<nanodbc::timestamp>("DateOfLastChange", nanodbc::timestamp{});
 		user.idLastChange = result.get<int>("idLastChange", 0);
 		user.isAdmin = result.get<int>("isAdmin");
 
@@ -166,8 +166,9 @@ void TEAMS::displayTeams()
 {
 	cout << "Team id: " << this->id << endl;
 	cout << "Title: " << this->title << endl;
-	cout << "Date of creation: " << this->dateOfCreation << endl;
+	cout << "Date of creation: " << timestampToString(this->dateOfCreation) << endl;
 	cout << "Id of the creator: " << this->idCreator << endl;
+	cout << "Date of last change: " << timestampToString(this->dateOfLastChange) << endl;
 	cout << "Id of the last changer: " << this->idLastChange << endl;
 }
 void createTeam(nanodbc::connection conn)
@@ -240,9 +241,9 @@ vector<TEAMS> getTeams(nanodbc::connection conn)
 		TEAMS team;
 		team.id = result.get<int>("Id");
 		team.title = result.get<nanodbc::string>("Title", "");
-		team.dateOfCreation = result.get<nanodbc::string>("DateOfCreation", "");
+		team.dateOfCreation = result.get<nanodbc::timestamp>("DateOfCreation", nanodbc::timestamp{});
 		team.idCreator = result.get<int>("idCreator", 0);
-		team.dateOfCreation = result.get<nanodbc::string>("DateOfCreation", "");
+		team.dateOfLastChange = result.get<nanodbc::timestamp>("DateOfLastChange", nanodbc::timestamp{});
 		team.idLastChange = result.get<int>("idLastChange", 0);
 
 		teams.push_back(team);
@@ -267,8 +268,9 @@ void PROJECTS::displayProjects()
 	cout << "Project id: " << this->id << endl;
 	cout << "Title: " << this->title << endl;
 	cout << "Description: " << this->description << endl;
-	cout << "Date of creation: " << this->dateOfCreation << endl;
+	cout << "Date of creation: " << timestampToString(this->dateOfCreation) << endl;
 	cout << "Id of the creator: " << this->idCreator << endl;
+	cout << "Date of last change: " << timestampToString(this->dateOfLastChange) << endl;
 	cout << "Id of the last changer: " << this->idLastChange << endl;
 }
 void createProject(nanodbc::connection conn)
@@ -351,9 +353,9 @@ vector<PROJECTS> getProjects(nanodbc::connection conn)
 		project.id = result.get<int>("Id");
 		project.title = result.get<nanodbc::string>("Title", "");
 		project.description = result.get<nanodbc::string>("Description", "");
-		project.dateOfCreation = result.get<nanodbc::string>("DateOfCreation", "");
+		project.dateOfCreation = result.get<nanodbc::timestamp>("DateOfCreation", nanodbc::timestamp{});
 		project.idCreator = result.get<int>("idCreator", 0);
-		project.dateOfCreation = result.get<nanodbc::string>("DateOfCreation", "");
+		project.dateOfLastChange = result.get<nanodbc::timestamp>("DateOfLastChange", nanodbc::timestamp{});
 		project.idLastChange = result.get<int>("idLastChange", 0);
 
 		projects.push_back(project);
@@ -390,8 +392,9 @@ void TASKS::displayTasks()
 	cout << "Title: " << this->title << endl;
 	cout << "Description: " << this->description << endl;
 	cout << "Status: " << getTaskStatusName(this->status) << endl;
-	cout << "Date of creation: " << this->dateOfCreation << endl;
+	cout << "Date of creation: " << timestampToString(this->dateOfCreation) << endl;
 	cout << "Id of the creator: " << this->idCreator << endl;
+	cout << "Date of last change: " << timestampToString(this->dateOfLastChange) << endl;
 	cout << "Id of the last changer: " << this->idLastChange << endl;
 
 	// task.status = (TASK_STATUS)result.get<int>("Status")
@@ -503,9 +506,9 @@ vector<TASKS> getTasks(nanodbc::connection conn)
 		task.title = result.get<nanodbc::string>("Title", "");
 		task.description = result.get<nanodbc::string>("Description", "");
 		task.status = (TASK_STATUS)result.get<int>("Status");
-		task.dateOfCreation = result.get<nanodbc::string>("DateOfCreation", "");
+		task.dateOfCreation = result.get<nanodbc::timestamp>("DateOfCreation", nanodbc::timestamp{});
 		task.idCreator = result.get<int>("idCreator", 0);
-		task.dateOfCreation = result.get<nanodbc::string>("DateOfCreation", "");
+		task.dateOfLastChange = result.get<nanodbc::timestamp>("DateOfLastChange", nanodbc::timestamp{});
 		task.idLastChange = result.get<int>("idLastChange", 0);
 
 		tasks.push_back(task);
