@@ -5,8 +5,8 @@
 #include <exception> 
 #include "dataFunctions.h"
 #include "dataStructures.h"
-using namespace std;
 
+using namespace std;
 //functions for geting input
 string cinLine()
 {
@@ -22,7 +22,6 @@ int cinNumber()
 	getline(cin, line);
 	return stoi(line);
 }
-
 
 //functions managing users
 void USER::displayUsers()
@@ -112,7 +111,7 @@ void editUser(nanodbc::connection conn)
 
 	execute(statement);
 }
-vector<USER> getUsers(nanodbc::connection conn)
+vector<USER> getAllUsers(nanodbc::connection conn)
 {
 	vector<USER> users;
 
@@ -144,16 +143,7 @@ vector<USER> getUsers(nanodbc::connection conn)
 
 	return users;
 }
-void listAllUsers(nanodbc::connection conn)
-{
-	vector<USER> users = getUsers(conn);
 
-	for (size_t i = 0; i < users.size(); i++)
-	{
-		users[i].displayUsers();
-	}
-	
-}
 
 //functions managing teams
 void TEAMS::displayTeams()
@@ -217,7 +207,7 @@ void editTeam(nanodbc::connection conn)
 
 	execute(statement);
 }
-vector<TEAMS> getTeams(nanodbc::connection conn)
+vector<TEAMS> getAllTeams(nanodbc::connection conn)
 {
 	vector<TEAMS> teams;
 
@@ -243,16 +233,6 @@ vector<TEAMS> getTeams(nanodbc::connection conn)
 	}
 
 	return teams;
-}
-void listAllTeams(nanodbc::connection conn)
-{
-	vector<TEAMS> teams = getTeams(conn);
-
-	for (size_t i = 0; i < teams.size(); i++)
-	{
-		teams[i].displayTeams();
-	}
-
 }
 
 //functions managing projects
@@ -281,8 +261,8 @@ void createProject(nanodbc::connection conn)
 	statement.bind(0, title.c_str());
 
 	cout << "Enter project's description: ";
-	const string description = cinLine();
-	statement.bind(0, description.c_str());
+	const string title = cinLine();
+	statement.bind(0, title.c_str());
 
 	cout << "Enter the id of the creator: ";
 	const int idCreator = cinNumber();
@@ -327,7 +307,7 @@ void editProject(nanodbc::connection conn)
 
 	execute(statement);
 }
-vector<PROJECTS> getProjects(nanodbc::connection conn)
+vector<PROJECTS> getAllProjects(nanodbc::connection conn)
 {
 	vector<PROJECTS> projects;
 
@@ -354,16 +334,6 @@ vector<PROJECTS> getProjects(nanodbc::connection conn)
 	}
 
 	return projects;
-}
-void listAllProjects(nanodbc::connection conn)
-{
-	vector<PROJECTS> projects = getProjects(conn);
-
-	for (size_t i = 0; i < projects.size(); i++)
-	{
-		projects[i].displayProjects();
-	}
-
 }
 
 //functions managing tasks
@@ -476,7 +446,7 @@ void editTask(nanodbc::connection conn)
 
 	execute(statement);
 }
-vector<TASKS> getTasks(nanodbc::connection conn)
+vector<TASKS> getAllTasks(nanodbc::connection conn)
 {
 	vector<TASKS> tasks;
 
@@ -507,16 +477,7 @@ vector<TASKS> getTasks(nanodbc::connection conn)
 
 	return tasks;
 }
-void listAllTasks(nanodbc::connection conn)
-{
-	vector<TASKS> tasks = getTasks(conn);
 
-	for (size_t i = 0; i < tasks.size(); i++)
-	{
-		tasks[i].displayTasks();
-	}
-
-}
 
 //functions managing work logs
 void LOGS::displayLogs() {
@@ -524,9 +485,7 @@ void LOGS::displayLogs() {
 	cout << "Task id: " << this->taskId << endl;
 	cout << "User id: " << this->userId << endl;
 	cout << "Time: " << this->time << endl;
-	cout << "Date: " << this->date.year 
-					 << this->date.month
-					 << this->date.day<<endl;
+	cout << "Date: " << this->date << endl;
 }
 void createLog(nanodbc::connection conn)
 {
@@ -551,18 +510,8 @@ void createLog(nanodbc::connection conn)
 	const int time = cinNumber();
 	statement.bind(2, &time);
 
-	nanodbc::date date;
-
-	cout << "Enter year: ";
-	date.year = cinNumber();
-	
-	cout << "Enter month: ";
-	date.month = cinNumber();
-
-	cout << "Enter day: ";
-	date.day = cinNumber();
-	
-	
+	cout << "Enter the date when you are going to work: ";
+	const int date = cinNumber();
 	statement.bind(3, &date);
 
 	execute(statement);
@@ -604,7 +553,7 @@ void editLog(nanodbc::connection conn)
 
 	execute(statement);
 }
-vector<LOGS> getLogs(nanodbc::connection conn)
+vector<LOGS> getAllLogs(nanodbc::connection conn)
 {
 	vector<LOGS> logs;
 
@@ -623,12 +572,13 @@ vector<LOGS> getLogs(nanodbc::connection conn)
 		log.taskId = result.get<int>("TaskId");
 		log.userId = result.get<int>("UserId");
 		log.time = result.get<int>("Time");
-		log.date = result.get<nanodbc::date>("Date");
+		log.date = result.get<nanodbc::string>("Date", "");
 
 		logs.push_back(log);
 	}
 
 	return logs;
+<<<<<<< HEAD
 }
 void listAllLogs(nanodbc::connection conn)
 {
@@ -640,3 +590,38 @@ void listAllLogs(nanodbc::connection conn)
 	}
 
 }
+
+//functions for authentication
+void loginDataCheck(nanodbc::connection conn, string username, string password)
+{
+
+	nanodbc::statement statement(conn);
+	nanodbc::prepare(statement, NANODBC_TEXT(R"(
+        SELECT Username, Password 
+            FROM Users
+        WHERE Username = ? AND Password = ?
+    )"));
+	statement.bind(0, username.c_str());
+	statement.bind(1, password.c_str());
+
+	nanodbc::result result = nanodbc::execute(statement);
+	
+	if (result.next()) {
+		auto isAdmin = result.get<int>("isAdmin", 0);
+
+		if (isAdmin) {
+
+			cout << "admin menu"<<endl;
+		}
+		else {
+			cout << "user menu"<<endl;
+		}
+	}
+	else {
+		cout << "Incorrect username or password! Please, try again!";
+	}
+}
+
+=======
+}
+>>>>>>> parent of e09964b (Add listing to all tables)

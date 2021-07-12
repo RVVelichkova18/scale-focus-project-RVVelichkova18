@@ -6,4 +6,5 @@
 #include <exception> 
 
 void wait(int delay = 350);
-bool menu(nanodbc::connection conn);
+bool adminOptions(nanodbc::connection conn);
+void loginMenu(nanodbc::connection conn);
