@@ -23,6 +23,13 @@ int cinNumber()
 	return stoi(line);
 }
 
+std::string timestampToString(nanodbc::timestamp ts) 
+{
+	return std::to_string(ts.year) + "-" + std::to_string(ts.month)
+		+ "-" + std::to_string(ts.day) + " " + std::to_string(ts.hour)
+		+ ":" + std::to_string(ts.min) + ":" + std::to_string(ts.sec);
+}
+
 //functions managing users
 void USER::displayUsers()
 {
@@ -31,9 +38,9 @@ void USER::displayUsers()
 	cout << "Password: " << this->password << endl;
 	cout << "First Name: " << this->firstName << endl;
 	cout << "Last Name: " << this->lastName << endl;
-	cout << "Date of creation: " << this->dateOfCreation << endl;
+	cout << "Date of creation: " << timestampToString(this->dateOfCreation) << endl;
 	cout << "Id of the creator: " << this->idCreator << endl;
-	cout << "Date of last change: " << this->dateOfLastChange << endl;
+	cout << "Date of last change: " << timestampToString(this->dateOfLastChange) << endl;
 	cout << "Id of the last changer: " << this->idLastChange << endl;
 }
 void createUser(nanodbc::connection conn)
@@ -131,9 +138,9 @@ vector<USER> getUsers(nanodbc::connection conn)
 		user.password = result.get<nanodbc::string>("Password", "");
 		user.firstName = result.get<nanodbc::string>("FirstName", "");
 		user.lastName = result.get<nanodbc::string>("LastName", "");
-		user.dateOfCreation = result.get<nanodbc::string>("DateOfCreation", "");
+		user.dateOfCreation = result.get<nanodbc::timestamp>("DateOfCreation", nanodbc::timestamp{});
 		user.idCreator = result.get<int>("idCreator", 0);
-		user.dateOfCreation = result.get<nanodbc::string>("DateOfCreation", "");
+		user.dateOfCreation = result.get<nanodbc::timestamp>("DateOfLastChange", nanodbc::timestamp{});
 		user.idLastChange = result.get<int>("idLastChange", 0);
 		user.isAdmin = result.get<int>("isAdmin");
 
@@ -639,33 +646,46 @@ void listAllLogs(nanodbc::connection conn)
 }
 
 //functions for authentication
-void loginDataCheck(nanodbc::connection conn, string username, string password)
+USER loginDataCheck(nanodbc::connection conn, string username, string password)
 {
+	USER user{};
 
 	nanodbc::statement statement(conn);
 	nanodbc::prepare(statement, NANODBC_TEXT(R"(
-        SELECT Username, Password, isAdmin 
+        SELECT 
+				Id
+				, Username
+				, Password
+				, FirstName
+				, LastName
+				, DateOfCreation
+				, idCreator
+				, DateOfLastChange
+				, IdLastChange
+			    , isAdmin
             FROM Users
         WHERE Username = ? AND Password = ?
     )"));
+
 	statement.bind(0, username.c_str());
 	statement.bind(1, password.c_str());
 
 	nanodbc::result result = nanodbc::execute(statement);
 
-	if (result.next()) {
-		auto isAdmin = result.get<int>("isAdmin", 0);
-
-		if (isAdmin) {
-
-			adminOptions(conn);
-		}
-		else {
-			cout << "user menu" << endl;
-		}
+	if (result.next()) 
+	{
+		user.id = result.get<int>("Id");
+		user.username = result.get<nanodbc::string>("Username", "");
+		user.password = result.get<nanodbc::string>("Password", "");
+		user.firstName = result.get<nanodbc::string>("FirstName", "");
+		user.lastName = result.get<nanodbc::string>("LastName", "");
+		user.dateOfCreation = result.get<nanodbc::timestamp>("DateOfCreation", nanodbc::timestamp{});
+		user.idCreator = result.get<int>("idCreator", 0);
+		user.dateOfLastChange = result.get<nanodbc::timestamp>("DateOfLastChange", nanodbc::timestamp{});
+		user.idLastChange = result.get<int>("IdLastChange", 0);
+		user.isAdmin = result.get<int>("isAdmin");
 	}
-	else {
-		cout << "Incorrect username or password! Please, try again!";
-	}
+
+	return user;
 }
 

@@ -11,8 +11,9 @@ try
 {
 	nanodbc::string connstr = NANODBC_TEXT("DRIVER={ODBC Driver 17 for SQL Server};SERVER=DESKTOP-IR9IA03\\SQLExpress;DATABASE=ManagementSystemProject;Trusted_Connection=yes;"); 
 	nanodbc::connection conn(connstr);
+	USER currentUser{};
 	
-	loginMenu(conn);
+	loginMenu(conn, currentUser);
 
 	return EXIT_SUCCESS;
 }

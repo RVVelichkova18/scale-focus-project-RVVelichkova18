@@ -13,9 +13,9 @@ struct USER {
 	std::string password = "";
 	std::string firstName = "";
 	std::string lastName = "";
-	std::string dateOfCreation = "";
+	nanodbc::timestamp dateOfCreation = nanodbc::timestamp{};
 	int idCreator = 0;
-	std::string dateOfLastChange = "";
+	nanodbc::timestamp dateOfLastChange = nanodbc::timestamp{};
 	int idLastChange = 0;
 	bool isAdmin;
 	void displayUsers();

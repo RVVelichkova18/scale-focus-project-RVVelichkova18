@@ -12,7 +12,7 @@ struct PROJECTS;
 struct TASKS;
 struct LOGS;
 
-
+std::string timestampToString(nanodbc::timestamp);
 
 int cinNumber();
 std::string cinLine();
@@ -46,4 +46,4 @@ std::vector<LOGS> getLogs(nanodbc::connection conn);
 void listAllLogs(nanodbc::connection conn);
 
 //login
-void loginDataCheck(nanodbc::connection conn, std::string username, std::string pass);
+USER loginDataCheck(nanodbc::connection conn, std::string username, std::string pass);
