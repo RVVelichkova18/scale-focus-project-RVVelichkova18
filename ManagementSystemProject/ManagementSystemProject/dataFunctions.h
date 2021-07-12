@@ -7,12 +7,17 @@
 #include "dataStructures.h"
 
 struct USER;
+struct TEAMS;
+struct PROJECTS;
+struct TASKS;
+struct LOGS;
+
+
 
 int cinNumber();
 std::string cinLine();
 void createUser(nanodbc::connection conn);
 void editUser(nanodbc::connection conn);
-<<<<<<< HEAD
 std::vector<USER> getUsers(nanodbc::connection conn);
 void listAllUsers(nanodbc::connection conn);
 
@@ -42,6 +47,3 @@ void listAllLogs(nanodbc::connection conn);
 
 //login
 void loginDataCheck(nanodbc::connection conn, std::string username, std::string pass);
-=======
-std::vector<USER> getAllUsers(nanodbc::connection conn);
->>>>>>> parent of e09964b (Add listing to all tables)

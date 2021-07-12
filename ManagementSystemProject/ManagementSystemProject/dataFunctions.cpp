@@ -5,8 +5,8 @@
 #include <exception> 
 #include "dataFunctions.h"
 #include "dataStructures.h"
-
 using namespace std;
+
 //functions for geting input
 string cinLine()
 {
@@ -42,7 +42,7 @@ void createUser(nanodbc::connection conn)
 	nanodbc::prepare(statement, NANODBC_TEXT(R"(
         INSERT INTO
            [ManagementSystemProject].[dbo].[Users]
-            (username, password, FirstName, LastName, DateOfCreation, IdCreator, DateOfLastChange, IdLastChange, isAdmin)
+            (Username, Password, FirstName, LastName, DateOfCreation, IdCreator, DateOfLastChange, IdLastChange, isAdmin)
             VALUES
             ( ?, ?, ?, ?, GETDATE(), ?,GETDATE(), ?,0)
     )"));
@@ -72,7 +72,7 @@ void editUser(nanodbc::connection conn)
 {
 
 	nanodbc::statement statement(conn);
-	
+
 	cout << "Enter id of the user that you want edit: " << endl;
 	const int id = cinNumber();
 	nanodbc::prepare(statement, NANODBC_TEXT(R"(
@@ -111,7 +111,7 @@ void editUser(nanodbc::connection conn)
 
 	execute(statement);
 }
-vector<USER> getAllUsers(nanodbc::connection conn)
+vector<USER> getUsers(nanodbc::connection conn)
 {
 	vector<USER> users;
 
@@ -132,18 +132,27 @@ vector<USER> getAllUsers(nanodbc::connection conn)
 		user.firstName = result.get<nanodbc::string>("FirstName", "");
 		user.lastName = result.get<nanodbc::string>("LastName", "");
 		user.dateOfCreation = result.get<nanodbc::string>("DateOfCreation", "");
-		user.idCreator = result.get<int>("idCreator",0);
+		user.idCreator = result.get<int>("idCreator", 0);
 		user.dateOfCreation = result.get<nanodbc::string>("DateOfCreation", "");
-		user.idLastChange = result.get<int>("idLastChange",0);
+		user.idLastChange = result.get<int>("idLastChange", 0);
 		user.isAdmin = result.get<int>("isAdmin");
-		
+
 
 		users.push_back(user);
 	}
 
 	return users;
 }
+void listAllUsers(nanodbc::connection conn)
+{
+	vector<USER> users = getUsers(conn);
 
+	for (size_t i = 0; i < users.size(); i++)
+	{
+		users[i].displayUsers();
+	}
+
+}
 
 //functions managing teams
 void TEAMS::displayTeams()
@@ -207,7 +216,7 @@ void editTeam(nanodbc::connection conn)
 
 	execute(statement);
 }
-vector<TEAMS> getAllTeams(nanodbc::connection conn)
+vector<TEAMS> getTeams(nanodbc::connection conn)
 {
 	vector<TEAMS> teams;
 
@@ -233,6 +242,16 @@ vector<TEAMS> getAllTeams(nanodbc::connection conn)
 	}
 
 	return teams;
+}
+void listAllTeams(nanodbc::connection conn)
+{
+	vector<TEAMS> teams = getTeams(conn);
+
+	for (size_t i = 0; i < teams.size(); i++)
+	{
+		teams[i].displayTeams();
+	}
+
 }
 
 //functions managing projects
@@ -261,8 +280,8 @@ void createProject(nanodbc::connection conn)
 	statement.bind(0, title.c_str());
 
 	cout << "Enter project's description: ";
-	const string title = cinLine();
-	statement.bind(0, title.c_str());
+	const string description = cinLine();
+	statement.bind(0, description.c_str());
 
 	cout << "Enter the id of the creator: ";
 	const int idCreator = cinNumber();
@@ -307,7 +326,7 @@ void editProject(nanodbc::connection conn)
 
 	execute(statement);
 }
-vector<PROJECTS> getAllProjects(nanodbc::connection conn)
+vector<PROJECTS> getProjects(nanodbc::connection conn)
 {
 	vector<PROJECTS> projects;
 
@@ -334,6 +353,16 @@ vector<PROJECTS> getAllProjects(nanodbc::connection conn)
 	}
 
 	return projects;
+}
+void listAllProjects(nanodbc::connection conn)
+{
+	vector<PROJECTS> projects = getProjects(conn);
+
+	for (size_t i = 0; i < projects.size(); i++)
+	{
+		projects[i].displayProjects();
+	}
+
 }
 
 //functions managing tasks
@@ -446,7 +475,7 @@ void editTask(nanodbc::connection conn)
 
 	execute(statement);
 }
-vector<TASKS> getAllTasks(nanodbc::connection conn)
+vector<TASKS> getTasks(nanodbc::connection conn)
 {
 	vector<TASKS> tasks;
 
@@ -477,7 +506,16 @@ vector<TASKS> getAllTasks(nanodbc::connection conn)
 
 	return tasks;
 }
+void listAllTasks(nanodbc::connection conn)
+{
+	vector<TASKS> tasks = getTasks(conn);
 
+	for (size_t i = 0; i < tasks.size(); i++)
+	{
+		tasks[i].displayTasks();
+	}
+
+}
 
 //functions managing work logs
 void LOGS::displayLogs() {
@@ -485,7 +523,7 @@ void LOGS::displayLogs() {
 	cout << "Task id: " << this->taskId << endl;
 	cout << "User id: " << this->userId << endl;
 	cout << "Time: " << this->time << endl;
-	cout << "Date: " << this->date << endl;
+	cout << "Date: " << this->date.year << this->date.month << this->date.day << endl;
 }
 void createLog(nanodbc::connection conn)
 {
@@ -510,8 +548,18 @@ void createLog(nanodbc::connection conn)
 	const int time = cinNumber();
 	statement.bind(2, &time);
 
-	cout << "Enter the date when you are going to work: ";
-	const int date = cinNumber();
+	nanodbc::date date;
+
+	cout << "Enter year: ";
+	date.year = cinNumber();
+
+	cout << "Enter month: ";
+	date.month = cinNumber();
+
+	cout << "Enter day: ";
+	date.day = cinNumber();
+
+
 	statement.bind(3, &date);
 
 	execute(statement);
@@ -553,7 +601,7 @@ void editLog(nanodbc::connection conn)
 
 	execute(statement);
 }
-vector<LOGS> getAllLogs(nanodbc::connection conn)
+vector<LOGS> getLogs(nanodbc::connection conn)
 {
 	vector<LOGS> logs;
 
@@ -572,13 +620,12 @@ vector<LOGS> getAllLogs(nanodbc::connection conn)
 		log.taskId = result.get<int>("TaskId");
 		log.userId = result.get<int>("UserId");
 		log.time = result.get<int>("Time");
-		log.date = result.get<nanodbc::string>("Date", "");
+		log.date = result.get<nanodbc::date>("Date");
 
 		logs.push_back(log);
 	}
 
 	return logs;
-<<<<<<< HEAD
 }
 void listAllLogs(nanodbc::connection conn)
 {
@@ -597,7 +644,7 @@ void loginDataCheck(nanodbc::connection conn, string username, string password)
 
 	nanodbc::statement statement(conn);
 	nanodbc::prepare(statement, NANODBC_TEXT(R"(
-        SELECT Username, Password 
+        SELECT Username, Password, isAdmin 
             FROM Users
         WHERE Username = ? AND Password = ?
     )"));
@@ -605,16 +652,16 @@ void loginDataCheck(nanodbc::connection conn, string username, string password)
 	statement.bind(1, password.c_str());
 
 	nanodbc::result result = nanodbc::execute(statement);
-	
+
 	if (result.next()) {
 		auto isAdmin = result.get<int>("isAdmin", 0);
 
 		if (isAdmin) {
 
-			cout << "admin menu"<<endl;
+			adminOptions(conn);
 		}
 		else {
-			cout << "user menu"<<endl;
+			cout << "user menu" << endl;
 		}
 	}
 	else {
@@ -622,6 +669,3 @@ void loginDataCheck(nanodbc::connection conn, string username, string password)
 	}
 }
 
-=======
-}
->>>>>>> parent of e09964b (Add listing to all tables)
