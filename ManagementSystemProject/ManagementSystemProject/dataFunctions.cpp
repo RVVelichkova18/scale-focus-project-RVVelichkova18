@@ -5,8 +5,8 @@
 #include <exception> 
 #include "dataFunctions.h"
 #include "dataStructures.h"
-
 using namespace std;
+
 //functions for geting input
 string cinLine()
 {
@@ -112,7 +112,7 @@ void editUser(nanodbc::connection conn)
 
 	execute(statement);
 }
-vector<USER> getAllUsers(nanodbc::connection conn)
+vector<USER> getUsers(nanodbc::connection conn)
 {
 	vector<USER> users;
 
@@ -144,7 +144,16 @@ vector<USER> getAllUsers(nanodbc::connection conn)
 
 	return users;
 }
+void listAllUsers(nanodbc::connection conn)
+{
+	vector<USER> users = getUsers(conn);
 
+	for (size_t i = 0; i < users.size(); i++)
+	{
+		users[i].displayUsers();
+	}
+	
+}
 
 //functions managing teams
 void TEAMS::displayTeams()
@@ -208,7 +217,7 @@ void editTeam(nanodbc::connection conn)
 
 	execute(statement);
 }
-vector<TEAMS> getAllTeams(nanodbc::connection conn)
+vector<TEAMS> getTeams(nanodbc::connection conn)
 {
 	vector<TEAMS> teams;
 
@@ -234,6 +243,16 @@ vector<TEAMS> getAllTeams(nanodbc::connection conn)
 	}
 
 	return teams;
+}
+void listAllTeams(nanodbc::connection conn)
+{
+	vector<TEAMS> teams = getTeams(conn);
+
+	for (size_t i = 0; i < teams.size(); i++)
+	{
+		teams[i].displayTeams();
+	}
+
 }
 
 //functions managing projects
@@ -262,8 +281,8 @@ void createProject(nanodbc::connection conn)
 	statement.bind(0, title.c_str());
 
 	cout << "Enter project's description: ";
-	const string title = cinLine();
-	statement.bind(0, title.c_str());
+	const string description = cinLine();
+	statement.bind(0, description.c_str());
 
 	cout << "Enter the id of the creator: ";
 	const int idCreator = cinNumber();
@@ -308,7 +327,7 @@ void editProject(nanodbc::connection conn)
 
 	execute(statement);
 }
-vector<PROJECTS> getAllProjects(nanodbc::connection conn)
+vector<PROJECTS> getProjects(nanodbc::connection conn)
 {
 	vector<PROJECTS> projects;
 
@@ -335,6 +354,16 @@ vector<PROJECTS> getAllProjects(nanodbc::connection conn)
 	}
 
 	return projects;
+}
+void listAllProjects(nanodbc::connection conn)
+{
+	vector<PROJECTS> projects = getProjects(conn);
+
+	for (size_t i = 0; i < projects.size(); i++)
+	{
+		projects[i].displayProjects();
+	}
+
 }
 
 //functions managing tasks
@@ -447,7 +476,7 @@ void editTask(nanodbc::connection conn)
 
 	execute(statement);
 }
-vector<TASKS> getAllTasks(nanodbc::connection conn)
+vector<TASKS> getTasks(nanodbc::connection conn)
 {
 	vector<TASKS> tasks;
 
@@ -478,7 +507,16 @@ vector<TASKS> getAllTasks(nanodbc::connection conn)
 
 	return tasks;
 }
+void listAllTasks(nanodbc::connection conn)
+{
+	vector<TASKS> tasks = getTasks(conn);
 
+	for (size_t i = 0; i < tasks.size(); i++)
+	{
+		tasks[i].displayTasks();
+	}
+
+}
 
 //functions managing work logs
 void LOGS::displayLogs() {
@@ -486,7 +524,9 @@ void LOGS::displayLogs() {
 	cout << "Task id: " << this->taskId << endl;
 	cout << "User id: " << this->userId << endl;
 	cout << "Time: " << this->time << endl;
-	cout << "Date: " << this->date << endl;
+	cout << "Date: " << this->date.year 
+					 << this->date.month
+					 << this->date.day<<endl;
 }
 void createLog(nanodbc::connection conn)
 {
@@ -511,8 +551,18 @@ void createLog(nanodbc::connection conn)
 	const int time = cinNumber();
 	statement.bind(2, &time);
 
-	cout << "Enter the date when you are going to work: ";
-	const int date = cinNumber();
+	nanodbc::date date;
+
+	cout << "Enter year: ";
+	date.year = cinNumber();
+	
+	cout << "Enter month: ";
+	date.month = cinNumber();
+
+	cout << "Enter day: ";
+	date.day = cinNumber();
+	
+	
 	statement.bind(3, &date);
 
 	execute(statement);
@@ -554,7 +604,7 @@ void editLog(nanodbc::connection conn)
 
 	execute(statement);
 }
-vector<LOGS> getAllLogs(nanodbc::connection conn)
+vector<LOGS> getLogs(nanodbc::connection conn)
 {
 	vector<LOGS> logs;
 
@@ -573,10 +623,20 @@ vector<LOGS> getAllLogs(nanodbc::connection conn)
 		log.taskId = result.get<int>("TaskId");
 		log.userId = result.get<int>("UserId");
 		log.time = result.get<int>("Time");
-		log.date = result.get<nanodbc::string>("Date", "");
+		log.date = result.get<nanodbc::date>("Date");
 
 		logs.push_back(log);
 	}
 
 	return logs;
+}
+void listAllLogs(nanodbc::connection conn)
+{
+	vector<LOGS> logs = getLogs(conn);
+
+	for (size_t i = 0; i < logs.size(); i++)
+	{
+		logs[i].displayLogs();
+	}
+
 }

@@ -1,4 +1,11 @@
 #pragma once
+
+struct USER;
+struct TEAMS;
+struct PROJECTS;
+struct TASKS;
+struct LOGS;
+
 #include <nanodbc.h>
 #include <iostream>
 #include <string>
@@ -67,7 +74,7 @@ struct LOGS {
 	int taskId = 0;
 	int userId = 0;
 	int time = 0;
-	std::string date = "";
+	nanodbc::date date;
 	void displayLogs();
 };
 

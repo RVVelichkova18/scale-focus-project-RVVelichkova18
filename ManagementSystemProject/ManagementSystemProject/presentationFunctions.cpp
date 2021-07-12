@@ -41,7 +41,7 @@ bool menu(nanodbc::connection conn)
 	}
 	case 3: {
 		system("cls");
-		getAllUsers(conn);
+		
 		break;
 	}
 	case 4:
