@@ -41,6 +41,7 @@ void loginMenu(nanodbc::connection conn, USER& user)
 	} 
 	else {
 		cout << "Incorrect username or password! Please, try again!";
+
 	}
 
 

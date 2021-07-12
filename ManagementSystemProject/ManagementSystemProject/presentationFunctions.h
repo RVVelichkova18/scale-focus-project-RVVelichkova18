@@ -6,6 +6,10 @@
 #include <exception> 
 
 struct USER;
+struct TEAMS;
+struct PROJECTS;
+struct TASKS;
+struct LOGS;
 
 void wait(int delay = 350);
 bool adminOptions(nanodbc::connection conn);
