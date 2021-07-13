@@ -84,10 +84,12 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		case 3: {
 			system("cls");
 			listAllUsers(conn);
+			adminOptions(conn);
 			break;
 		}
 		case 4: {
 			system("cls");
+			deleteUser(conn);
 			cout << "Delete functionality is just a future idea :)" << endl;
 			break;
 		}

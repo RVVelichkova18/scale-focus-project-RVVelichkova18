@@ -14,6 +14,8 @@ struct LOGS;
 
 std::string timestampToString(nanodbc::timestamp);
 
+void deleteUser(nanodbc::connection conn);
+
 int cinNumber();
 std::string cinLine();
 void createUser(nanodbc::connection conn);

@@ -30,6 +30,31 @@ std::string timestampToString(nanodbc::timestamp ts)
 		+ ":" + std::to_string(ts.min) + ":" + std::to_string(ts.sec);
 }
 
+
+void USER::deleteUserById(nanodbc::connection& conn, int& id)
+{
+	nanodbc::statement statement(conn);
+	nanodbc::prepare(statement, NANODBC_TEXT(R"(
+			UPDATE Users
+			SET isDeleted = 1
+            WHERE Id = ?
+    )"));
+	statement.bind(0, &id);
+	auto result = execute(statement);
+	
+}
+
+void deleteUser(nanodbc::connection conn)
+{
+
+	nanodbc::statement statement(conn);
+	cout << "Enter id of the user that you want edit: " << endl;
+	int id = cinNumber();
+
+	USER::deleteUserById(conn, id);
+}
+
+
 //functions managing users
 void USER::displayUsers()
 {
@@ -91,7 +116,7 @@ void editUser(nanodbc::connection conn)
 			,LastName = ?
 			,DateOfLastChange = GETDATE()
 			,IdLastChange = ?
-	  WHERE Id=?;
+	  WHERE Id=? AND isDeleted!=true;
     )"));
 
 	cout << "Enter the username: ";
@@ -126,6 +151,8 @@ vector<USER> getUsers(nanodbc::connection conn)
 	nanodbc::prepare(statement, NANODBC_TEXT(R"( 
         SELECT *
             FROM [ManagementSystemProject].[dbo].[Users]
+			WHERE isDeleted!=1;
+			
     )"));
 
 	auto result = execute(statement);
@@ -139,10 +166,11 @@ vector<USER> getUsers(nanodbc::connection conn)
 		user.firstName = result.get<nanodbc::string>("FirstName", "");
 		user.lastName = result.get<nanodbc::string>("LastName", "");
 		user.dateOfCreation = result.get<nanodbc::timestamp>("DateOfCreation", nanodbc::timestamp{});
-		user.idCreator = result.get<int>("idCreator", 0);
+		user.idCreator = result.get<int>("IdCreator", 0);
 		user.dateOfLastChange = result.get<nanodbc::timestamp>("DateOfLastChange", nanodbc::timestamp{});
-		user.idLastChange = result.get<int>("idLastChange", 0);
+		user.idLastChange = result.get<int>("IdLastChange", 0);
 		user.isAdmin = result.get<int>("isAdmin");
+		//user.isDeleted = result.get<int>("isDeleted");
 
 
 		users.push_back(user);

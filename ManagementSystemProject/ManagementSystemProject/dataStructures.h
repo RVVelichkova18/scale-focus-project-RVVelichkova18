@@ -18,7 +18,9 @@ struct USER {
 	nanodbc::timestamp dateOfLastChange = nanodbc::timestamp{};
 	int idLastChange = 0;
 	bool isAdmin;
+	bool isDeleted;
 	void displayUsers();
+	static void deleteUserById(nanodbc::connection& conn, int& id);
 };
 
 struct TEAMS {
