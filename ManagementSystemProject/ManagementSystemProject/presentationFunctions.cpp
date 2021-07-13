@@ -415,11 +415,10 @@ void loginMenu(nanodbc::connection conn, USER& user)
 
 	void displayUserOptions()
 	{
-		cout << "1) Teams management" << endl;
-		cout << "2) Projects management" << endl;
-		cout << "3) Tasks management" << endl;
-		cout << "4) Work log management" << endl;
-		cout << "5) Exit" << endl;
+		cout << "1) Projects management" << endl;
+		cout << "2) Tasks management" << endl;
+		cout << "3) Work log management" << endl;
+		cout << "4) Exit" << endl;
 	}
 
 	bool userOptions(nanodbc::connection conn,USER& user)
@@ -433,31 +432,26 @@ void loginMenu(nanodbc::connection conn, USER& user)
 
 		switch (choice)
 		{
+		
 		case 1: {
-			system("cls");
-		    teamsManagement(conn, user);
-			userOptions(conn, user);
-			break;
-		}
-		case 2: {
 			system("cls");
 			projectsManagement(conn, user);
 			userOptions(conn, user);
 			break;
 		}
-		case 3: {
+		case 2: {
 			system("cls");
 			tasksManagement(conn, user);
 			userOptions(conn, user);
 			break;
 		}
-		case 4: {
+		case 3: {
 			system("cls");
 			logManagement(conn, user);
 			userOptions(conn, user);
 			break;
 		}
-		case 5:
+		case 4:
 			return false;
 		default:
 			cout << "Try again! " << endl;
