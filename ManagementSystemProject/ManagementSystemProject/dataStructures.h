@@ -7,6 +7,7 @@
 #include "dataFunctions.h"
 #include "presentationFunctions.h"
 
+
 struct USER {
 	int id = 0;
 	std::string username = "";
@@ -72,6 +73,8 @@ struct LOGS {
 	nanodbc::date date;
 	void displayLogs();
 };
+
+
 
 #define RESET   "\033[0m"
 #define RED     "\033[1;91m" 

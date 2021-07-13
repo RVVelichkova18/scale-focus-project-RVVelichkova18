@@ -7,6 +7,12 @@
 #include "dataStructures.h"
 using namespace std;
 
+struct USER;
+struct TEAMS;
+struct PROJECTS;
+struct TASKS;
+struct LOGS;
+
 //functions for geting input
 string cinLine()
 {
@@ -29,31 +35,6 @@ std::string timestampToString(nanodbc::timestamp ts)
 		+ "-" + std::to_string(ts.day) + " " + std::to_string(ts.hour)
 		+ ":" + std::to_string(ts.min) + ":" + std::to_string(ts.sec);
 }
-
-
-void USER::deleteUserById(nanodbc::connection& conn, int& id)
-{
-	nanodbc::statement statement(conn);
-	nanodbc::prepare(statement, NANODBC_TEXT(R"(
-			UPDATE Users
-			SET isDeleted = 1
-            WHERE Id = ?
-    )"));
-	statement.bind(0, &id);
-	auto result = execute(statement);
-	
-}
-
-void deleteUser(nanodbc::connection conn)
-{
-
-	nanodbc::statement statement(conn);
-	cout << "Enter id of the user that you want edit: " << endl;
-	int id = cinNumber();
-
-	USER::deleteUserById(conn, id);
-}
-
 
 //functions managing users
 void USER::displayUsers()
@@ -170,8 +151,6 @@ vector<USER> getUsers(nanodbc::connection conn)
 		user.dateOfLastChange = result.get<nanodbc::timestamp>("DateOfLastChange", nanodbc::timestamp{});
 		user.idLastChange = result.get<int>("IdLastChange", 0);
 		user.isAdmin = result.get<int>("isAdmin");
-		//user.isDeleted = result.get<int>("isDeleted");
-
 
 		users.push_back(user);
 	}
@@ -187,6 +166,27 @@ void listAllUsers(nanodbc::connection conn)
 		users[i].displayUsers();
 	}
 
+}
+void USER::deleteUserById(nanodbc::connection& conn, int& id)
+{
+	nanodbc::statement statement(conn);
+	nanodbc::prepare(statement, NANODBC_TEXT(R"(
+			UPDATE Users
+			SET isDeleted = 1
+            WHERE Id = ?
+    )"));
+	statement.bind(0, &id);
+	auto result = execute(statement);
+
+}
+void deleteUser(nanodbc::connection conn)
+{
+
+	nanodbc::statement statement(conn);
+	cout << "Enter id of the user that you want edit: " << endl;
+	int id = cinNumber();
+
+	USER::deleteUserById(conn, id);
 }
 
 //functions managing teams

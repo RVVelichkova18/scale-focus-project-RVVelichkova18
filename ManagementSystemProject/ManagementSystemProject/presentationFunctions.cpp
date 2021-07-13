@@ -32,11 +32,11 @@ void loginMenu(nanodbc::connection conn, USER& user)
 	{
 		if (user.isAdmin) {
 
-			adminOptions(conn);
+			adminOptions(conn, user);
 		}
 		else 
 		{
-			userOptions(conn);
+			userOptions(conn, user);
 		}
 	} 
 	else {
@@ -46,7 +46,6 @@ void loginMenu(nanodbc::connection conn, USER& user)
 	}
 
 	}
-
 
 	//USERS
 
@@ -58,7 +57,7 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		cout << "4) Delete user by Id" << endl;
 		cout << "5) Return back" << endl;
 	}
-	bool usersManagement(nanodbc::connection conn)
+	bool usersManagement(nanodbc::connection conn, USER& user)
 	{
 		displayUsersManagement();
 		int choice;
@@ -72,19 +71,19 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		case 1: {
 			system("cls");
 			createUser(conn);
-			adminOptions(conn);
+			adminOptions(conn, user);
 			break;
 		}
 		case 2: {
 			system("cls");
 			editUser(conn);
-			adminOptions(conn);
+			adminOptions(conn, user);
 			break;
 		}
 		case 3: {
 			system("cls");
 			listAllUsers(conn);
-			adminOptions(conn);
+			adminOptions(conn, user);
 			break;
 		}
 		case 4: {
@@ -112,7 +111,7 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		cout << "4) Delete team by Id" << endl;
 		cout << "5) Return back" << endl;
 	}
-	bool teamsManagement(nanodbc::connection conn)
+	bool teamsManagement(nanodbc::connection conn, USER& user)
 	{
 		displayTeamsManagement();
 		int choice;
@@ -130,7 +129,13 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		}
 		case 2: {
 			system("cls");
-			editTeam(conn);
+			if (user.id == user.idCreator or user.isAdmin)
+			{
+				editTeam(conn);
+			}
+			else {
+				cout << "You cannot edit this team :)"<<endl;
+			}
 			break;
 		}
 		case 3: {
@@ -162,7 +167,7 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		cout << "4) Delete projects by Id" << endl;
 		cout << "5) Return back" << endl;
 	}
-	bool projectsManagement(nanodbc::connection conn)
+	bool projectsManagement(nanodbc::connection conn, USER& user)
 	{
 		displayProjectsManagement();
 		int choice;
@@ -180,7 +185,13 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		}
 		case 2: {
 			system("cls");
-			editProject(conn);
+			if (user.id == user.idCreator or user.isAdmin)
+			{
+				editProject(conn);
+			}
+			else {
+				cout << "You cannot edit this team :)" << endl;
+			}
 			break;
 		}
 		case 3: {
@@ -212,7 +223,7 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		cout << "4) Delete task by Id" << endl;
 		cout << "5) Return back" << endl;
 	}
-	bool tasksManagement(nanodbc::connection conn)
+	bool tasksManagement(nanodbc::connection conn, USER& user)
 	{
 		displayTasksManagement();
 		int choice;
@@ -230,7 +241,13 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		}
 		case 2: {
 			system("cls");
-			editTask(conn);
+			if (user.id == user.idCreator or user.isAdmin)
+			{
+				editTask(conn);
+			}
+			else {
+				cout << "You cannot edit this team :)" << endl;
+			}
 			break;
 		}
 		case 3: {
@@ -262,7 +279,7 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		cout << "4) Delete work log by Id" << endl;
 		cout << "5) Return back" << endl;
 	}
-	bool logManagement(nanodbc::connection conn)
+	bool logManagement(nanodbc::connection conn, USER& user)
 	{
 		displayLogsManagement();
 		int choice;
@@ -280,7 +297,13 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		}
 		case 2: {
 			system("cls");
-			editLog(conn);
+			if (user.id == user.idCreator or user.isAdmin)
+			{
+				editLog(conn);
+			}
+			else {
+				cout << "You cannot edit this team :)" << endl;
+			}
 			break;
 		}
 		case 3: {
@@ -313,7 +336,7 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		cout << "6) Exit" << endl;
 	}
 
-	bool adminOptions(nanodbc::connection conn)
+	bool adminOptions(nanodbc::connection conn, USER& user)
 	{
 		displayAdminOptions();
 		int choice;
@@ -326,27 +349,32 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		{
 		case 1: {
 			system("cls");
-			usersManagement(conn);
+			usersManagement(conn, user);
+			adminOptions(conn, user);
 			break;
 		}
 		case 2: {
 			system("cls");
-			teamsManagement(conn);
+			teamsManagement(conn, user);
+			adminOptions(conn, user);
 			break;
 		}
 		case 3: {
 			system("cls");
-			projectsManagement(conn);
+			projectsManagement(conn, user);
+			adminOptions(conn, user);
 			break;
 		}
 		case 4: {
 			system("cls");
-			tasksManagement(conn);
+			tasksManagement(conn, user);
+			adminOptions(conn, user);
 			break;
 		}
 		case 5: {
 			system("cls");
-			logManagement(conn);
+			logManagement(conn, user);
+			adminOptions(conn, user);
 			break;
 		}
 		case 6:
@@ -367,7 +395,7 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		cout << "5) Exit" << endl;
 	}
 
-	bool userOptions(nanodbc::connection conn)
+	bool userOptions(nanodbc::connection conn,USER& user)
 	{
 		displayUserOptions();
 		int choice;
@@ -380,22 +408,26 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		{
 		case 1: {
 			system("cls");
-			teamsManagement(conn);
+		    teamsManagement(conn, user);
+			userOptions(conn, user);
 			break;
 		}
 		case 2: {
 			system("cls");
-			projectsManagement(conn);
+			projectsManagement(conn, user);
+			userOptions(conn, user);
 			break;
 		}
 		case 3: {
 			system("cls");
-			tasksManagement(conn);
+			tasksManagement(conn, user);
+			userOptions(conn, user);
 			break;
 		}
 		case 4: {
 			system("cls");
-			logManagement(conn);
+			logManagement(conn, user);
+			userOptions(conn, user);
 			break;
 		}
 		case 5:
