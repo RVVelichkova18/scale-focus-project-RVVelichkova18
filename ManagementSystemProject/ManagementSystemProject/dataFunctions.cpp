@@ -289,6 +289,27 @@ void listAllTeams(nanodbc::connection conn)
 	}
 
 }
+void TEAMS::deleteTeamById(nanodbc::connection& conn, int& id)
+{
+	nanodbc::statement statement(conn);
+	nanodbc::prepare(statement, NANODBC_TEXT(R"(
+			UPDATE Teams
+			SET isDeleted = 1
+            WHERE Id = ?
+    )"));
+	statement.bind(0, &id);
+	auto result = execute(statement);
+
+}
+void deleteTeam(nanodbc::connection conn)
+{
+
+	nanodbc::statement statement(conn);
+	cout << "Enter id of the user that you want edit: " << endl;
+	int id = cinNumber();
+
+	TEAMS::deleteTeamById(conn, id);
+}
 
 //functions managing projects
 void PROJECTS::displayProjects()
@@ -400,6 +421,27 @@ void listAllProjects(nanodbc::connection conn)
 		projects[i].displayProjects();
 	}
 
+}
+void PROJECTS::deleteProjectById(nanodbc::connection& conn, int& id)
+{
+	nanodbc::statement statement(conn);
+	nanodbc::prepare(statement, NANODBC_TEXT(R"(
+			UPDATE Projects
+			SET isDeleted = 1
+            WHERE Id = ?
+    )"));
+	statement.bind(0, &id);
+	auto result = execute(statement);
+
+}
+void deleteProject(nanodbc::connection conn)
+{
+
+	nanodbc::statement statement(conn);
+	cout << "Enter id of the user that you want edit: " << endl;
+	int id = cinNumber();
+
+	PROJECTS::deleteProjectById(conn, id);
 }
 
 //functions managing tasks
@@ -554,6 +596,27 @@ void listAllTasks(nanodbc::connection conn)
 	}
 
 }
+void TASKS::deleteTaskById(nanodbc::connection& conn, int& id)
+{
+	nanodbc::statement statement(conn);
+	nanodbc::prepare(statement, NANODBC_TEXT(R"(
+			UPDATE Tasks
+			SET isDeleted = 1
+            WHERE Id = ?
+    )"));
+	statement.bind(0, &id);
+	auto result = execute(statement);
+
+}
+void deleteTask(nanodbc::connection conn)
+{
+
+	nanodbc::statement statement(conn);
+	cout << "Enter id of the user that you want edit: " << endl;
+	int id = cinNumber();
+
+	TASKS::deleteTaskById(conn, id);
+}
 
 //functions managing work logs
 void LOGS::displayLogs() {
@@ -675,6 +738,28 @@ void listAllLogs(nanodbc::connection conn)
 	}
 
 }
+void LOGS::deleteLogById(nanodbc::connection& conn, int& id)
+{
+	nanodbc::statement statement(conn);
+	nanodbc::prepare(statement, NANODBC_TEXT(R"(
+			UPDATE WorkLog
+			SET isDeleted = 1
+            WHERE Id = ?
+    )"));
+	statement.bind(0, &id);
+	auto result = execute(statement);
+
+}
+void deleteLog(nanodbc::connection conn)
+{
+
+	nanodbc::statement statement(conn);
+	cout << "Enter id of the user that you want edit: " << endl;
+	int id = cinNumber();
+
+	LOGS::deleteLogById(conn, id);
+}
+
 
 //functions for authentication
 USER loginDataCheck(nanodbc::connection conn, string username, string password)

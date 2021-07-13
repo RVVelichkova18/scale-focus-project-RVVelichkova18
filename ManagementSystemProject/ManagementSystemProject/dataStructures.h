@@ -31,7 +31,9 @@ struct TEAMS {
 	int idCreator = 0;
 	nanodbc::timestamp dateOfLastChange = nanodbc::timestamp{};
 	int idLastChange = 0;
+	bool isDeleted;
 	void displayTeams();
+	static void deleteTeamById(nanodbc::connection& conn, int& id);
 };
 
 struct PROJECTS {
@@ -42,7 +44,9 @@ struct PROJECTS {
 	int idCreator = 0;
 	nanodbc::timestamp dateOfLastChange = nanodbc::timestamp{};
 	int idLastChange = 0;
+	bool isDeleted;
 	void displayProjects();
+	static void deleteProjectById(nanodbc::connection& conn, int& id);
 };
 
 enum class TASK_STATUS {
@@ -62,7 +66,9 @@ struct TASKS {
 	int idCreator = 0;
 	nanodbc::timestamp dateOfLastChange = nanodbc::timestamp{};
 	int idLastChange = 0;
+	bool isDeleted;
 	void displayTasks();
+	static void deleteTaskById(nanodbc::connection& conn, int& id);
 };
 
 struct LOGS {
@@ -70,8 +76,10 @@ struct LOGS {
 	int taskId = 0;
 	int userId = 0;
 	int time = 0;
-	nanodbc::date date;
+	nanodbc::date date;	
+	bool isDeleted;
 	void displayLogs();
+	static void deleteLogById(nanodbc::connection& conn, int& id);
 };
 
 

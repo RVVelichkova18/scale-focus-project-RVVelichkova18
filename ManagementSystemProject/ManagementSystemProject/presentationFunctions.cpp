@@ -89,7 +89,7 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		case 4: {
 			system("cls");
 			deleteUser(conn);
-			cout << "Delete functionality is just a future idea :)" << endl;
+			adminOptions(conn, user);
 			break;
 		}
 		case 5:
@@ -145,7 +145,13 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		}
 		case 4: {
 			system("cls");
-			cout << "Delete functionality is just a future idea :)" << endl;
+			if (user.id == user.idCreator or user.isAdmin)
+			{
+				deleteTeam(conn);
+			}
+			else {
+				cout << "You cannot edit this team :)" << endl;
+			}
 			break;
 		}
 		case 5:
@@ -201,7 +207,13 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		}
 		case 4: {
 			system("cls");
-			cout << "Delete functionality is just a future idea :)" << endl;
+			if (user.id == user.idCreator or user.isAdmin)
+			{
+				deleteProject(conn);
+			}
+			else {
+				cout << "You cannot edit this team :)" << endl;
+			}
 			break;
 		}
 		case 5:
@@ -257,7 +269,13 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		}
 		case 4: {
 			system("cls");
-			cout << "Delete functionality is just a future idea :)" << endl;
+			if (user.id == user.idCreator or user.isAdmin)
+			{
+				deleteTask(conn);
+			}
+			else {
+				cout << "You cannot edit this team :)" << endl;
+			}
 			break;
 		}
 		case 5:
@@ -313,7 +331,13 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		}
 		case 4: {
 			system("cls");
-			cout << "Delete functionality is just a future idea :)" << endl;
+			if (user.id == user.idCreator or user.isAdmin)
+			{
+				deleteLog(conn);
+			}
+			else {
+				cout << "You cannot edit this team :)" << endl;
+			}
 			break;
 		}
 		case 5:
