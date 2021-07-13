@@ -339,25 +339,22 @@ void createProject(nanodbc::connection conn)
 
 	cout << "Enter project's description: ";
 	const string description = cinLine();
-	statement.bind(0, description.c_str());
+	statement.bind(1, description.c_str());
 
 	cout << "Enter the id of the creator: ";
 	const int idCreator = cinNumber();
-	statement.bind(1, &idCreator);
+	statement.bind(2, &idCreator);
 
 	cout << "Enter the id of the person that did the last change: ";
 	const int idLastChange = cinNumber();
-	statement.bind(2, &idLastChange);
+	statement.bind(3, &idLastChange);
 
 	execute(statement);
 }
-void editProject(nanodbc::connection conn)
+void editProject(nanodbc::connection conn, const int &id)
 {
 
 	nanodbc::statement statement(conn);
-
-	cout << "Enter id of the project that you want edit: " << endl;
-	const int id = cinNumber();
 	nanodbc::prepare(statement, NANODBC_TEXT(R"(
       UPDATE [ManagementSystemProject].[dbo].[Projects]
 	  SET
@@ -442,6 +439,33 @@ void deleteProject(nanodbc::connection conn)
 	int id = cinNumber();
 
 	PROJECTS::deleteProjectById(conn, id);
+}
+PROJECTS getProject(nanodbc::connection conn, int& id)
+{
+	
+	nanodbc::statement statement(conn);
+	nanodbc::prepare(statement, NANODBC_TEXT(R"( 
+        SELECT *
+            FROM [ManagementSystemProject].[dbo].[Projects]
+		WHERE Id=?
+    )"));
+
+	statement.bind(0, &id);
+	auto result = execute(statement);
+	PROJECTS project;
+	if (!result.next());
+	else{
+		
+		project.id = result.get<int>("Id");
+		project.title = result.get<nanodbc::string>("Title", "");
+		project.description = result.get<nanodbc::string>("Description", "");
+		project.dateOfCreation = result.get<nanodbc::timestamp>("DateOfCreation", nanodbc::timestamp{});
+		project.idCreator = result.get<int>("idCreator", 0);
+		project.dateOfLastChange = result.get<nanodbc::timestamp>("DateOfLastChange", nanodbc::timestamp{});
+		project.idLastChange = result.get<int>("idLastChange", 0);
+	}
+
+	return project;
 }
 
 //functions managing tasks

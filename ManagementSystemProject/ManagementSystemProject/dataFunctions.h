@@ -34,7 +34,7 @@ void deleteTeam(nanodbc::connection conn);
 
 //projects
 void createProject(nanodbc::connection conn);
-void editProject(nanodbc::connection conn);
+void editProject(nanodbc::connection conn, const int& id);
 std::vector<PROJECTS> getProjects(nanodbc::connection conn);
 void listAllProjects(nanodbc::connection conn);
 void deleteProject(nanodbc::connection conn);

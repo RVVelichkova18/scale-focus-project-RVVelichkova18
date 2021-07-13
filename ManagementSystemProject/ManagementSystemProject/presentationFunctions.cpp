@@ -191,9 +191,12 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		}
 		case 2: {
 			system("cls");
-			if (user.id == user.idCreator or user.isAdmin)
+			cout << "Enter id of the project that you want edit: " << endl;
+			int id = cinNumber();
+			PROJECTS project = getProject(conn, id);
+			if (user.id == project.idCreator or user.isAdmin)
 			{
-				editProject(conn);
+				editProject(conn, id);
 			}
 			else {
 				cout << "You cannot edit this team :)" << endl;
