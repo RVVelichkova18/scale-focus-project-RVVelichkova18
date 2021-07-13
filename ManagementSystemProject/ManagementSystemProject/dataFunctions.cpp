@@ -97,7 +97,7 @@ void editUser(nanodbc::connection conn)
 			,LastName = ?
 			,DateOfLastChange = GETDATE()
 			,IdLastChange = ?
-	  WHERE Id=? AND isDeleted!=true;
+	  WHERE Id=? AND isDeleted<>1
     )"));
 
 	cout << "Enter the username: ";
@@ -132,7 +132,7 @@ vector<USER> getUsers(nanodbc::connection conn)
 	nanodbc::prepare(statement, NANODBC_TEXT(R"( 
         SELECT *
             FROM [ManagementSystemProject].[dbo].[Users]
-			WHERE isDeleted!=1;
+			WHERE isDeleted<>1
 			
     )"));
 
@@ -237,7 +237,7 @@ void editTeam(nanodbc::connection conn)
 			Title = ?
 			,DateOfLastChange = GETDATE()
 			,IdLastChange = ?
-	  WHERE Id=?;
+	  WHERE Id=? AND isDeleted<>1
     )"));
 
 	cout << "Enter the team's new name: ";
@@ -260,6 +260,7 @@ vector<TEAMS> getTeams(nanodbc::connection conn)
 	nanodbc::prepare(statement, NANODBC_TEXT(R"( 
         SELECT *
             FROM [ManagementSystemProject].[dbo].[Teams]
+			WHERE isDeleted<>1
     )"));
 
 	auto result = execute(statement);
@@ -305,7 +306,7 @@ void deleteTeam(nanodbc::connection conn)
 {
 
 	nanodbc::statement statement(conn);
-	cout << "Enter id of the user that you want edit: " << endl;
+	cout << "Enter id of the team that you want delete: " << endl;
 	int id = cinNumber();
 
 	TEAMS::deleteTeamById(conn, id);
@@ -362,7 +363,7 @@ void editProject(nanodbc::connection conn, const int &id)
 			,Description = ?
 			,DateOfLastChange = GETDATE()
 			,IdLastChange = ?
-	  WHERE Id=?;
+	  WHERE Id=? AND isDeleted<>1
     )"));
 
 	cout << "Enter the title: ";
@@ -389,6 +390,7 @@ vector<PROJECTS> getProjects(nanodbc::connection conn)
 	nanodbc::prepare(statement, NANODBC_TEXT(R"( 
         SELECT *
             FROM [ManagementSystemProject].[dbo].[Projects]
+			WHERE isDeleted<>1
     )"));
 
 	auto result = execute(statement);
@@ -435,7 +437,7 @@ void deleteProject(nanodbc::connection conn)
 {
 
 	nanodbc::statement statement(conn);
-	cout << "Enter id of the user that you want edit: " << endl;
+	cout << "Enter id of the project that you want delete: " << endl;
 	int id = cinNumber();
 
 	PROJECTS::deleteProjectById(conn, id);
@@ -551,7 +553,7 @@ void editTask(nanodbc::connection conn)
 			,Status = ?
 			,DateOfLastChange = GETDATE()
 			,IdLastChange = ?
-	  WHERE Id=?;
+	  WHERE Id=? AND isDeleted<>1
     )"));
 
 	cout << "Enter the id of the new assignee: ";
@@ -587,6 +589,7 @@ vector<TASKS> getTasks(nanodbc::connection conn)
 	nanodbc::prepare(statement, NANODBC_TEXT(R"( 
         SELECT *
             FROM [ManagementSystemProject].[dbo].[Tasks]
+			WHERE isDeleted<>1
     )"));
 
 	auto result = execute(statement);
@@ -636,7 +639,7 @@ void deleteTask(nanodbc::connection conn)
 {
 
 	nanodbc::statement statement(conn);
-	cout << "Enter id of the user that you want edit: " << endl;
+	cout << "Enter id of the task that you want delete: " << endl;
 	int id = cinNumber();
 
 	TASKS::deleteTaskById(conn, id);
@@ -703,7 +706,7 @@ void editLog(nanodbc::connection conn)
 			,UserId = ?
 			,Time = ?
 			,Date = ?
-	  WHERE Id=?;
+	  WHERE Id=? AND isDeleted<>1
     )"));
 
 	cout << "Enter the id of the new task: ";
@@ -734,6 +737,7 @@ vector<LOGS> getLogs(nanodbc::connection conn)
 	nanodbc::prepare(statement, NANODBC_TEXT(R"( 
         SELECT *
             FROM [ManagementSystemProject].[dbo].[Projects]
+			WHERE isDeleted<>1
     )"));
 
 	auto result = execute(statement);
@@ -778,7 +782,7 @@ void deleteLog(nanodbc::connection conn)
 {
 
 	nanodbc::statement statement(conn);
-	cout << "Enter id of the user that you want edit: " << endl;
+	cout << "Enter id of the work log that you want delete: " << endl;
 	int id = cinNumber();
 
 	LOGS::deleteLogById(conn, id);
