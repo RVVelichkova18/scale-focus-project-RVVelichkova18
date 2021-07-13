@@ -36,14 +36,14 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		}
 		else 
 		{
-			cout << "user menu" << endl;
+			userOptions(conn);
 		}
 	} 
 	else {
-		cout << "Incorrect username or password! Please, try again!";
-
+		cout << "Incorrect username or password! Please, try again!"<<endl;
+		system("cls");
+		loginMenu(conn, user);
 	}
-
 
 	}
 
@@ -355,3 +355,53 @@ void loginMenu(nanodbc::connection conn, USER& user)
 
 		return true;
 	}
+
+	void displayUserOptions()
+	{
+		cout << "1) Teams management" << endl;
+		cout << "2) Projects management" << endl;
+		cout << "3) Tasks management" << endl;
+		cout << "4) Work log management" << endl;
+		cout << "5) Exit" << endl;
+	}
+
+	bool userOptions(nanodbc::connection conn)
+	{
+		displayUserOptions();
+		int choice;
+		cout << "Enter an option: ";
+		string line;
+		getline(cin, line);
+		choice = stoi(line);
+
+		switch (choice)
+		{
+		case 1: {
+			system("cls");
+			teamsManagement(conn);
+			break;
+		}
+		case 2: {
+			system("cls");
+			projectsManagement(conn);
+			break;
+		}
+		case 3: {
+			system("cls");
+			tasksManagement(conn);
+			break;
+		}
+		case 4: {
+			system("cls");
+			logManagement(conn);
+			break;
+		}
+		case 5:
+			return false;
+		default:
+			cout << "Try again! " << endl;
+		}
+
+		return true;
+	}
+
