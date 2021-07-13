@@ -1,3 +1,7 @@
+<h1 align="center">Project Management System</h1>
+<h6 align="center">Scale Focus Project - Internship</h6>
+<br>
+
 ## Hello, I am Radina! ✨
 
 This is my solution for our internship assigment. I have to develop a Project Management application that manages the operations of an IT company.
@@ -20,3 +24,10 @@ Download the project from [github](https://github.com/RVVelichkova18/scale-focus
 - <img src="https://i.pinimg.com/originals/32/a0/3a/32a03aee0c76419ec5bde950a62883bc.png" width="26">Microsoft SQL Server Management Studio 
  
  ---
+<p align="center">
+  <img src = "https://img.shields.io/github/languages/count/RVVelichkova18/scale-focus-project-RVVelichkova18?style=for-the-badge">
+  <img src = "https://img.shields.io/github/contributors/RVVelichkova18/scale-focus-project-RVVelichkova18?style=for-the-badge">
+  <img src = "https://img.shields.io/github/last-commit/RVVelichkova18/scale-focus-project-RVVelichkova18?style=for-the-badge">
+  <img src = "https://img.shields.io/github/languages/top/RVVelichkova18/scale-focus-project-RVVelichkova18?style=for-the-badge">
+</p>
+  
