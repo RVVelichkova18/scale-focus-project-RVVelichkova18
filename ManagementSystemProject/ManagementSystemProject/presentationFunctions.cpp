@@ -50,11 +50,11 @@ void displayGreeting()
 	wait(450);
 	spaces(20); cout <<u8"                                                                                     " << endl;
 	spaces(20); cout <<u8"                                                                                     " << endl;
-	spaces(20); cout <<u8"■■     ■■   ■■■■■   ■■   ■■   ■■■■■   ■■■■■■  ■■■■■  ■■     ■■  ■■■■■  ■■   ■■  ■■■■■■"  <<endl;
-	spaces(20); cout <<u8"■■■   ■■■  ■■   ■■  ■■■  ■■  ■■   ■■  ■■      ■■     ■■■   ■■■  ■■     ■■■  ■■    ■■  "  <<endl;
-	spaces(20); cout <<u8"■■ ■■■ ■■  ■■■■■■■  ■■ ■ ■■  ■■■■■■■  ■■ ■■■  ■■■■   ■■ ■■■ ■■  ■■■■   ■■ ■ ■■    ■■  "  <<endl;
-	spaces(20); cout <<u8"■■  ■  ■■  ■■   ■■  ■■  ■■■  ■■   ■■  ■■  ■■  ■■     ■■  ■  ■■  ■■     ■■  ■■■    ■■  "  <<endl;
-	spaces(20); cout <<u8"■■     ■■  ■■   ■■  ■■   ■■  ■■   ■■  ■■■■■■  ■■■■■  ■■     ■■  ■■■■■  ■■   ■■    ■■  "  <<endl;
+	spaces(20); cout<<WHITE<<u8"■■     ■■   ■■■■■   ■■   ■■   ■■■■■   ■■■■■■  ■■■■■  ■■     ■■  ■■■■■  ■■   ■■  ■■■■■■"<<RESET<<endl;
+	spaces(20); cout<<WHITE<<u8"■■■   ■■■  ■■   ■■  ■■■  ■■  ■■   ■■  ■■      ■■     ■■■   ■■■  ■■     ■■■  ■■    ■■  "<<RESET<<endl;
+	spaces(20); cout<<WHITE<<u8"■■ ■■■ ■■  ■■■■■■■  ■■ ■ ■■  ■■■■■■■  ■■ ■■■  ■■■■   ■■ ■■■ ■■  ■■■■   ■■ ■ ■■    ■■  "<<RESET<<endl;
+	spaces(20); cout<<WHITE<<u8"■■  ■  ■■  ■■   ■■  ■■  ■■■  ■■   ■■  ■■  ■■  ■■     ■■  ■  ■■  ■■     ■■  ■■■    ■■  "<<RESET<<endl;
+	spaces(20); cout<<WHITE<<u8"■■     ■■  ■■   ■■  ■■   ■■  ■■   ■■  ■■■■■■  ■■■■■  ■■     ■■  ■■■■■  ■■   ■■    ■■  "<<RESET<<endl;
 	wait(450);
 	spaces(20); cout << u8"                                                                                      " << endl;
 	spaces(20); cout << u8"                                                                                      " << endl; 
@@ -69,7 +69,7 @@ void displayGreeting()
 void displayLogin()
 {
 	spaces(34);  cout << endl;
-	spaces(34);  cout << YELLOW << "-------------------------------------------------------" << RESET << endl;
+	spaces(34);  cout << YELLOW << "_______________________________________________________" << RESET << endl;
 	spaces(34);  cout << YELLOW << "|                                                     |" << RESET << endl;
 	spaces(34);  cout << YELLOW << u8"|                   L  O  G  I  N                     |" << RESET << endl;
 	spaces(34);  cout << YELLOW << "|                                                     |" << RESET << endl;
@@ -78,8 +78,7 @@ void displayLogin()
 	spaces(34);  cout << YELLOW << "|                                                     |" << RESET << endl;
 	spaces(34);  cout << YELLOW << "|             Password:                               |" << RESET << endl;
 	spaces(34);  cout << YELLOW << "|                                                     |" << RESET << endl;
-	spaces(34);  cout << YELLOW << "|                                                     |" << RESET << endl;
-	spaces(34);  cout << YELLOW << "-------------------------------------------------------" << RESET << endl;
+	spaces(34);  cout << YELLOW << "|_____________________________________________________|" << RESET << endl;
 }
 
 void loginMenu(nanodbc::connection conn, USER& user)
@@ -123,18 +122,24 @@ void loginMenu(nanodbc::connection conn, USER& user)
 
 	void displayUsersManagement()
 	{
+		wait(400);
+		spaces(32); cout << " ________________________________________________________________" << endl;
+		spaces(32); cout << "|                                                               |" << endl;
+		spaces(32); cout << "|                       O P T I O N S                           |" << endl;
+		spaces(32); cout << "|                                                               |" << endl;
+		spaces(32); cout << "|                       1) Add new user                         |" << endl;
+		spaces(32); cout << "|                       2) Edit user by Id                      |" << endl;
+		spaces(32); cout << "|                       3) List all users                       |" << endl;
+		spaces(32); cout << "|                       4) Delete user by Id                    |" << endl;
+		spaces(32); cout << "|                       5) Return back                          |" << endl;
+		spaces(32); cout << "|_______________________________________________________________|" << endl;
 		cout << endl;
-		spaces(34); cout << "1) Add new user" << endl;
-		spaces(34); cout << "2) Edit user by Id" << endl;
-		spaces(34); cout << "3) List all users" << endl;
-		spaces(34); cout << "4) Delete user by Id" << endl;
-		spaces(34); cout << "5) Return back" << endl;
 	}
 	bool usersManagement(nanodbc::connection conn, USER& user)
 	{
 		displayUsersManagement();
 		int choice;
-		cout << "Enter an option: ";
+		spaces(34); cout << "Enter an option: ";
 		string line;
 		getline(cin, line);
 		choice = stoi(line);
@@ -144,24 +149,28 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		case 1: {
 			system("cls");
 			createUser(conn);
+			system("cls");
 			adminOptions(conn, user);
 			break;
 		}
 		case 2: {
 			system("cls");
 			editUser(conn);
+			system("cls");
 			adminOptions(conn, user);
 			break;
 		}
 		case 3: {
 			system("cls");
 			listAllUsers(conn);
+			system("cls");
 			adminOptions(conn, user);
 			break;
 		}
 		case 4: {
 			system("cls");
 			deleteUser(conn);
+			system("cls");
 			adminOptions(conn, user);
 			break;
 		}
@@ -178,12 +187,18 @@ void loginMenu(nanodbc::connection conn, USER& user)
 
 	void displayTeamsManagement()
 	{
+		wait(400);
+		spaces(32); cout << " ________________________________________________________________" << endl;
+		spaces(32); cout << "|                                                               |" << endl;
+		spaces(32); cout << "|                       O P T I O N S                           |" << endl;
+		spaces(32); cout << "|                                                               |" << endl;
+		spaces(32); cout << "|                       1) Add new team                         |" << endl;
+		spaces(32); cout << "|                       2) Edit team by Id                      |" << endl;
+		spaces(32); cout << "|                       3) List all teams                       |" << endl;
+		spaces(32); cout << "|                       4) Delete team by Id                    |" << endl;
+		spaces(32); cout << "|                       5) Return back                          |" << endl;
+		spaces(32); cout << "|_______________________________________________________________|" << endl;
 		cout << endl;
-		spaces(34); cout << "1) Add new team" << endl;
-		spaces(34); cout << "2) Edit team by Id" << endl;
-		spaces(34); cout << "3) List all teams" << endl;
-		spaces(34); cout << "4) Delete team by Id" << endl;
-		spaces(34); cout << "5) Return back" << endl;
 	}
 	bool teamsManagement(nanodbc::connection conn, USER& user)
 	{
@@ -241,12 +256,18 @@ void loginMenu(nanodbc::connection conn, USER& user)
 
 	void displayProjectsManagement()
 	{
+		wait(400);
+		spaces(32); cout << " ________________________________________________________________" << endl;
+		spaces(32); cout << "|                                                               |" << endl;
+		spaces(32); cout << "|                       O P T I O N S                           |" << endl;
+		spaces(32); cout << "|                                                               |" << endl;
+		spaces(32); cout << "|                     1) Add new project                        |" << endl;
+		spaces(32); cout << "|                     2) Edit project by Id                     |" << endl;
+		spaces(32); cout << "|                     3) List all projects                      |" << endl;
+		spaces(32); cout << "|                     4) Delete projects by Id                  |" << endl;
+		spaces(32); cout << "|                     5) Return back                            |" << endl;
+		spaces(32); cout << "|_______________________________________________________________|" << endl;
 		cout << endl;
-		spaces(34); cout << "1) Add new project" << endl;
-		spaces(34); cout << "2) Edit project by Id" << endl;
-		spaces(34); cout << "3) List all projects" << endl;
-		spaces(34); cout << "4) Delete projects by Id" << endl;
-		spaces(34); cout << "5) Return back" << endl;
 	}
 	bool projectsManagement(nanodbc::connection conn, USER& user)
 	{
@@ -309,13 +330,19 @@ void loginMenu(nanodbc::connection conn, USER& user)
 
 	void displayTasksManagement()
 	{
+		wait(400);
+		spaces(32); cout << " ________________________________________________________________" << endl;
+		spaces(32); cout << "|                                                               |" << endl;
+		spaces(32); cout << "|                       O P T I O N S                           |" << endl;
+		spaces(32); cout << "|                                                               |" << endl;
+		spaces(32); cout << "|                      1) Add new task                          |" << endl;
+		spaces(32); cout << "|                      2) Edit task by Id                       |" << endl;
+		spaces(32); cout << "|                      3) List all tasks                        |" << endl;
+		spaces(32); cout << "|                      4) Delete task by Id                     |" << endl;
+		spaces(32); cout << "|                      5) View work logs for task by Id         |" << endl;
+		spaces(32); cout << "|                      6) Return back                           |" << endl;
+		spaces(32); cout << "|_______________________________________________________________|" << endl;
 		cout << endl;
-		spaces(34); cout << "1) Add new task" << endl;
-		spaces(34); cout << "2) Edit task by Id" << endl;
-		spaces(34); cout << "3) List all tasks" << endl;
-		spaces(34); cout << "4) Delete task by Id" << endl;
-		spaces(34); cout << "5) View work logs for task by Id" << endl;
-		spaces(34); cout << "6) Return back" << endl;
 	}
 	bool tasksManagement(nanodbc::connection conn, USER& user)
 	{
@@ -394,12 +421,18 @@ void loginMenu(nanodbc::connection conn, USER& user)
 	//LOGS
 	void displayLogsManagement()
 	{
+		wait(400);
+		spaces(32); cout << " ________________________________________________________________" << endl;
+		spaces(32); cout << "|                                                               |" << endl;
+		spaces(32); cout << "|                       O P T I O N S                           |" << endl;
+		spaces(32); cout << "|                                                               |" << endl;
+		spaces(32); cout << "|                     1) Add new work log                       |" << endl;
+		spaces(32); cout << "|                     2) Edit work log by Id                    |" << endl;
+		spaces(32); cout << "|                     3) List all work logs                     |" << endl;
+		spaces(32); cout << "|                     4) Delete work log by Id                  |" << endl;
+		spaces(32); cout << "|                     5) Return back                            |" << endl;
+		spaces(32); cout << "|_______________________________________________________________|" << endl;
 		cout << endl;
-		spaces(34); cout << "1) Add new work log" << endl;
-		spaces(34); cout << "2) Edit work log by Id" << endl;
-		spaces(34); cout << "3) List all work logs" << endl;
-		spaces(34); cout << "4) Delete work log by Id" << endl;
-		spaces(34); cout << "5) Return back" << endl;
 	}
 	bool logManagement(nanodbc::connection conn, USER& user)
 	{
@@ -463,12 +496,24 @@ void loginMenu(nanodbc::connection conn, USER& user)
 	void displayAdminOptions()
 	{
 		cout << endl;
-		spaces(34); cout << "1) Users management" << endl;
-		spaces(34); cout << "2) Teams management" << endl;
-		spaces(34); cout << "3) Projects management" << endl;
-		spaces(34); cout << "4) Tasks management" << endl;
-		spaces(34); cout << "5) Work log management" << endl;
-		spaces(34); cout << "6) Exit" << endl;
+		spaces(33); cout << YELLOW << u8"■■       ■■  ■■■■■  ■■     ■■■■■    ■■■    ■■     ■■  ■■■■■  ■■ " << RESET << endl;
+		spaces(33); cout << YELLOW << u8"■■   ■   ■■  ■■     ■■     ■■     ■■   ■■  ■■■   ■■■  ■■     ■■ " << RESET << endl;
+		spaces(33); cout << YELLOW << u8"■■  ■■■  ■■  ■■■■   ■■     ■■     ■■   ■■  ■■ ■■■ ■■  ■■■■   ■■ " << RESET << endl;
+		spaces(33); cout << YELLOW << u8"■■ ■■ ■■ ■■  ■■     ■■     ■■     ■■   ■■  ■■  ■  ■■  ■■        " << RESET << endl;
+		spaces(33); cout << YELLOW << u8"■■■     ■■■  ■■■■■  ■■■■■  ■■■■■    ■■■    ■■     ■■  ■■■■■  ■■ " << RESET << endl;
+		
+		spaces(32); cout << " ________________________________________________________________" << endl;
+		spaces(32); cout << "|                                                               |" << endl;
+		spaces(32); cout << "|                       O P T I O N S                           |" << endl;
+		spaces(32); cout << "|                                                               |" << endl;
+		spaces(32); cout << "|                    1) Users management                        |" << endl;
+		spaces(32); cout << "|                    2) Teams management                        |" << endl;
+		spaces(32); cout << "|                    3) Projects management                     |" << endl;
+		spaces(32); cout << "|                    4) Tasks management                        |" << endl;
+		spaces(32); cout << "|                    5) Work log management                     |" << endl;
+		spaces(32); cout << "|                    6) Exit                                    |" << endl;
+		spaces(32); cout << "|_______________________________________________________________|" << endl;
+		cout << endl;
 	}
 
 	bool adminOptions(nanodbc::connection conn, USER& user)
@@ -524,9 +569,22 @@ void loginMenu(nanodbc::connection conn, USER& user)
 	void displayUserOptions()
 	{
 		cout << endl;
-		spaces(34); cout << "1) Projects management" << endl;
-		spaces(34); cout << "2) Tasks management" << endl;
-		spaces(34); cout << "3) Exit" << endl;
+		spaces(30); cout << YELLOW << u8"■■       ■■  ■■■■■  ■■     ■■■■■    ■■■    ■■     ■■  ■■■■■  ■■ " << RESET << endl;
+		spaces(30); cout << YELLOW << u8"■■   ■   ■■  ■■     ■■     ■■     ■■   ■■  ■■■   ■■■  ■■     ■■ " << RESET << endl;
+		spaces(30); cout << YELLOW << u8"■■  ■■■  ■■  ■■■■   ■■     ■■     ■■   ■■  ■■ ■■■ ■■  ■■■■   ■■ " << RESET << endl;
+		spaces(30); cout << YELLOW << u8"■■ ■■ ■■ ■■  ■■     ■■     ■■     ■■   ■■  ■■  ■  ■■  ■■        " << RESET << endl;
+		spaces(30); cout << YELLOW << u8"■■■     ■■■  ■■■■■  ■■■■■  ■■■■■    ■■■    ■■     ■■  ■■■■■  ■■ " << RESET << endl;
+		cout << endl;
+		wait(400);
+		spaces(32); cout << " ________________________________________________________________" << endl;
+		spaces(32); cout << "|                                                               |" << endl;
+		spaces(32); cout << "|                       O P T I O N S                           |" << endl;
+		spaces(32); cout << "|                                                               |" << endl;
+		spaces(32); cout << "|                    1) Projects management                     |" << endl;
+		spaces(32); cout << "|                    2) Tasks management                        |" << endl;
+		spaces(32); cout << "|                    3) Exit                                    |" << endl;
+		spaces(32); cout << "|_______________________________________________________________|" << endl;
+		cout << endl;
 	}
 
 	bool userOptions(nanodbc::connection conn,USER& user)
