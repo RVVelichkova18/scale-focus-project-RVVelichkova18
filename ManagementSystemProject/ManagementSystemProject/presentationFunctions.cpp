@@ -112,7 +112,7 @@ void loginMenu(nanodbc::connection conn, USER& user)
 	string password = cinLine();
 	if (password.length() > 15)
 	{
-		spaces(45); cout <<RED<< "Your password have to be with max 15 characters: "<<RESET;
+		spaces(45); cout << RED << "Your password have to be with max 15 characters: " << RESET;
 		password = cinLine();
 	}
 	cout << endl;
@@ -124,11 +124,12 @@ void loginMenu(nanodbc::connection conn, USER& user)
 	if (user.id > 0)
 	{
 		if (user.isAdmin) {
-
+			welcome();
 			adminOptions(conn, user);
 		}
 		else
 		{
+			welcome();
 			userOptions(conn, user);
 		}
 	}
@@ -303,7 +304,7 @@ bool teamsManagement(nanodbc::connection conn, USER& user)
 	case 5:
 		return false;
 	default:
-		spaces(34); cout <<RED<< "Try again! " <<RESET<< endl;
+		spaces(34); cout << RED << "Try again! " << RESET << endl;
 		teamsManagement(conn, user);
 	}
 
@@ -504,7 +505,7 @@ bool tasksManagement(nanodbc::connection conn, USER& user)
 	case 6:
 		return false;
 	default:
-		spaces(34); cout <<RED<< "Try again! "<<RESET << endl;
+		spaces(34); cout << RED << "Try again! " << RESET << endl;
 		tasksManagement(conn, user);
 	}
 
@@ -596,8 +597,8 @@ bool logManagement(nanodbc::connection conn, USER& user)
 	case 5:
 		return false;
 	default:
-		spaces(34);	cout <<RED<< "Try again! " <<RESET<< endl;
-		logManagement(conn,user);
+		spaces(34);	cout << RED << "Try again! " << RESET << endl;
+		logManagement(conn, user);
 	}
 
 	return true;
@@ -623,7 +624,7 @@ void displayAdminOptions()
 
 bool adminOptions(nanodbc::connection conn, USER& user)
 {
-	welcome();
+	
 	displayAdminOptions();
 	int choice;
 	spaces(34); cout << "Enter an option: ";
@@ -665,7 +666,16 @@ bool adminOptions(nanodbc::connection conn, USER& user)
 	}
 	case 6: {
 		system("cls");
-		cout << "users: "<<countUsers(conn);
+		spaces(52); cout << GREEN << u8"╭─━━━━━━━━━━━━━━━━━━━━─╮" << RESET << endl;
+		spaces(52); cout << GREEN << "  S T A T I S T I C S   " << RESET << endl;
+		spaces(52); cout << GREEN << u8"╰─━━━━━━━━━━━━━━━━━━━━─╯" << RESET << endl;
+		spaces(32); cout << PURPLE<< " ________________________________________________________________" << RESET<<endl;
+		cout << endl;
+		spaces(56); cout << "All users count: " << countUsers(conn) << endl;
+		spaces(56); cout << "All teams count: " << countTeams(conn) << endl;
+		spaces(56); cout << "All projects count: " << countProjects(conn) << endl;
+		spaces(56); cout << "All tasks count: " << countTasks(conn) << endl;
+		spaces(56); cout << "All work logs count: " << countLogs(conn) << endl;
 		adminOptions(conn, user);
 		break;
 	}
@@ -695,7 +705,7 @@ void displayUserOptions()
 
 bool userOptions(nanodbc::connection conn, USER& user)
 {
-	welcome();
+	
 	displayUserOptions();
 	int choice;
 	spaces(34); cout << "Enter an option: ";

@@ -327,6 +327,24 @@ void deleteTeam(nanodbc::connection conn)
 	cout << endl;
 	spaces(38); cout << GREEN << "Deleted successfully!" << endl;
 }
+int countTeams(nanodbc::connection conn)
+{
+	nanodbc::statement statement(conn);
+	nanodbc::prepare(statement, NANODBC_TEXT(R"( 
+        SELECT COUNT(Id) AS Count
+            FROM [ManagementSystemProject].[dbo].[Teams]
+			WHERE isDeleted<>1
+			
+    )"));
+
+	auto result = execute(statement);
+	int teamsCount = 0;
+	if (result.next()) {
+		teamsCount = result.get<int>("Count");
+	}
+
+	return teamsCount;
+}
 
 //functions managing projects
 void PROJECTS::displayProjects()
@@ -476,6 +494,24 @@ PROJECTS getProjectById(nanodbc::connection conn, int& id)
 	}
 
 	return project;
+}
+int countProjects(nanodbc::connection conn)
+{
+	nanodbc::statement statement(conn);
+	nanodbc::prepare(statement, NANODBC_TEXT(R"( 
+        SELECT COUNT(Id) AS Count
+            FROM [ManagementSystemProject].[dbo].[Projects]
+			WHERE isDeleted<>1
+			
+    )"));
+
+	auto result = execute(statement);
+	int projectsCount = 0;
+	if (result.next()) {
+		projectsCount = result.get<int>("Count");
+	}
+
+	return projectsCount;
 }
 
 //functions managing tasks
@@ -680,6 +716,24 @@ TASKS getTaskById(nanodbc::connection conn, int& id)
 
 	return task;
 }
+int countTasks(nanodbc::connection conn)
+{
+	nanodbc::statement statement(conn);
+	nanodbc::prepare(statement, NANODBC_TEXT(R"( 
+        SELECT COUNT(Id) AS Count
+            FROM [ManagementSystemProject].[dbo].[Tasks]
+			WHERE isDeleted<>1
+			
+    )"));
+
+	auto result = execute(statement);
+	int tasksCount = 0;
+	if (result.next()) {
+		tasksCount = result.get<int>("Count");
+	}
+
+	return tasksCount;
+}
 
 //functions managing work logs
 void LOGS::displayLogs()
@@ -861,6 +915,25 @@ LOGS getLogByTaskId(nanodbc::connection conn, int& taskId)
 
 	return log;
 }
+int countLogs(nanodbc::connection conn)
+{
+	nanodbc::statement statement(conn);
+	nanodbc::prepare(statement, NANODBC_TEXT(R"( 
+        SELECT COUNT(Id) AS Count
+            FROM [ManagementSystemProject].[dbo].[WorkLog]
+			WHERE isDeleted<>1
+			
+    )"));
+
+	auto result = execute(statement);
+	int logsCount = 0;
+	if (result.next()) {
+		logsCount = result.get<int>("Count");
+	}
+
+	return logsCount;
+}
+
 
 //
 //void enterPassword(string* code)
