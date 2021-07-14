@@ -315,6 +315,7 @@ void loginMenu(nanodbc::connection conn, USER& user)
 					PROJECTS::deleteProjectById(conn, id);
 					cout << endl;
 					cout << GREEN << "Deleted successfully!" << endl;
+					wait(400);
 			}
 			else {
 				spaces(34);	cout << "You cannot delete this team :)" << endl;
@@ -394,6 +395,7 @@ void loginMenu(nanodbc::connection conn, USER& user)
 				TASKS::deleteTaskById(conn, id);
 				cout << endl;
 				cout << GREEN << "Deleted successfully!" << endl;
+				wait(400);
 			}
 			else {
 				spaces(34);	cout << "You cannot delete this task :)" << endl;
@@ -485,6 +487,7 @@ void loginMenu(nanodbc::connection conn, USER& user)
 				LOGS::deleteLogById(conn, id);
 				cout << endl;
 				cout << GREEN << "Deleted successfully!" << endl;
+				wait(400);
 			}
 			else {
 				spaces(34);	cout << "You cannot edit this team :)" << endl;
