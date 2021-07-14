@@ -18,11 +18,13 @@ std::string timestampToString(nanodbc::timestamp);
 
 int cinNumber();
 std::string cinLine();
+//user
 void createUser(nanodbc::connection conn);
 void editUser(nanodbc::connection conn);
 std::vector<USER> getUsers(nanodbc::connection conn);
 void listAllUsers(nanodbc::connection conn);
 void deleteUser(nanodbc::connection conn);
+int countUsers(nanodbc::connection conn);
 
 //teams
 void createTeam(nanodbc::connection conn);

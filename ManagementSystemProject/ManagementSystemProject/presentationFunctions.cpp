@@ -110,9 +110,9 @@ void loginMenu(nanodbc::connection conn, USER& user)
 	}
 	cursor(59, 29);
 	string password = cinLine();
-	if (password.length() != 8)
+	if (password.length() > 15)
 	{
-		spaces(45); cout <<RED<< "Your password have to be with 8 characters: "<<RESET;
+		spaces(45); cout <<RED<< "Your password have to be with max 15 characters: "<<RESET;
 		password = cinLine();
 	}
 	cout << endl;
@@ -615,7 +615,8 @@ void displayAdminOptions()
 	spaces(32); cout << YELLOW << "|                    3) Projects management                     |" << RESET << endl;
 	spaces(32); cout << YELLOW << "|                    4) Tasks management                        |" << RESET << endl;
 	spaces(32); cout << YELLOW << "|                    5) Work log management                     |" << RESET << endl;
-	spaces(32); cout << YELLOW << "|                    6) Exit                                    |" << RESET << endl;
+	spaces(32); cout << YELLOW << "|                    6) Statistics                              |" << RESET << endl;
+	spaces(32); cout << YELLOW << "|                    7) Exit                                    |" << RESET << endl;
 	spaces(32); cout << YELLOW << "|_______________________________________________________________|" << RESET << endl;
 	cout << endl;
 }
@@ -662,7 +663,13 @@ bool adminOptions(nanodbc::connection conn, USER& user)
 		adminOptions(conn, user);
 		break;
 	}
-	case 6:
+	case 6: {
+		system("cls");
+		cout << "users: "<<countUsers(conn);
+		adminOptions(conn, user);
+		break;
+	}
+	case 7:
 		return false;
 	default:
 		spaces(34);	cout << RED << "Try again! " << RESET << endl;

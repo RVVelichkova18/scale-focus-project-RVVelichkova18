@@ -182,6 +182,24 @@ void deleteUser(nanodbc::connection conn)
 	cout << endl;
 	spaces(38); cout << GREEN << "Deleted successfully!" << endl;
 }
+int countUsers(nanodbc::connection conn)
+{
+	nanodbc::statement statement(conn);
+	nanodbc::prepare(statement, NANODBC_TEXT(R"( 
+        SELECT COUNT(Id) AS Count
+            FROM [ManagementSystemProject].[dbo].[Users]
+			WHERE isDeleted<>1
+			
+    )"));
+
+	auto result = execute(statement);
+	int usersCount = 0;
+	if (result.next()) {
+		usersCount = result.get<int>("Count");
+	}
+
+	return usersCount;
+}
 
 //functions managing teams
 void TEAMS::displayTeams()
@@ -205,16 +223,18 @@ void createTeam(nanodbc::connection conn)
             VALUES
             ( ?, GETDATE(), ?, GETDATE(), ?)
     )"));
-
-	cout << "Enter team's name: ";
+	cout << endl;
+	spaces(32); cout << " ________________________________________________________________" << endl;
+	cout << endl;
+	spaces(38); cout << "Enter team's name: ";
 	const string title = cinLine();
 	statement.bind(0, title.c_str());
 
-	cout << "Enter the id of the creator: ";
+	spaces(38); cout << "Enter the id of the creator: ";
 	const int idCreator = cinNumber();
 	statement.bind(1, &idCreator);
 
-	cout << "Enter the id of the person that did the last change: ";
+	spaces(38); cout << "Enter the id of the person that did the last change: ";
 	const int idLastChange = cinNumber();
 	statement.bind(2, &idLastChange);
 
@@ -331,20 +351,22 @@ void createProject(nanodbc::connection conn)
             VALUES
             ( ?, ?, GETDATE(), ?, GETDATE(), ?)
     )"));
-
-	cout << "Enter project's name: ";
+	cout << endl;
+	spaces(32); cout << " ________________________________________________________________" << endl;
+	cout << endl;
+	spaces(38); cout << "Enter project's name: ";
 	const string title = cinLine();
 	statement.bind(0, title.c_str());
 
-	cout << "Enter project's description: ";
+	spaces(38); cout << "Enter project's description: ";
 	const string description = cinLine();
 	statement.bind(1, description.c_str());
 
-	cout << "Enter the id of the creator: ";
+	spaces(38); cout << "Enter the id of the creator: ";
 	const int idCreator = cinNumber();
 	statement.bind(2, &idCreator);
 
-	cout << "Enter the id of the person that did the last change: ";
+	spaces(38); cout << "Enter the id of the person that did the last change: ";
 	const int idLastChange = cinNumber();
 	statement.bind(3, &idLastChange);
 
@@ -492,7 +514,9 @@ void createTask(nanodbc::connection conn)
             VALUES
             ( ?, ?, ?, ?, GETDATE(), ?, ?, GETDATE(), ?)
     )"));
-
+	cout << endl;
+	spaces(32); cout << " ________________________________________________________________" << endl;
+	cout << endl;
 	spaces(38); cout << "Enter project id: ";
 	const int projectId = cinNumber();
 	statement.bind(0, &projectId);
