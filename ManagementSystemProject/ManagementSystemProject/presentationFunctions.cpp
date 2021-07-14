@@ -69,16 +69,16 @@ void displayGreeting()
 void displayLogin()
 {
 	spaces(34);  cout << endl;
-	spaces(34);  cout << YELLOW << "_______________________________________________________" << RESET << endl;
-	spaces(34);  cout << YELLOW << "|                                                     |" << RESET << endl;
-	spaces(34);  cout << YELLOW << u8"|                   L  O  G  I  N                     |" << RESET << endl;
-	spaces(34);  cout << YELLOW << "|                                                     |" << RESET << endl;
-	spaces(34);  cout << YELLOW << "|             Username:                               |" << RESET << endl;
-	spaces(34);  cout << YELLOW << "|                                                     |" << RESET << endl;
-	spaces(34);  cout << YELLOW << "|                                                     |" << RESET << endl;
-	spaces(34);  cout << YELLOW << "|             Password:                               |" << RESET << endl;
-	spaces(34);  cout << YELLOW << "|                                                     |" << RESET << endl;
-	spaces(34);  cout << YELLOW << "|_____________________________________________________|" << RESET << endl;
+	spaces(34);  cout << BLUE << "_______________________________________________________" << RESET << endl;
+	spaces(34);  cout << BLUE << "|                                                     |" << RESET << endl;
+	spaces(34);  cout << BLUE << u8"|                   L  O  G  I  N                     |" << RESET << endl;
+	spaces(34);  cout << BLUE << "|                                                     |" << RESET << endl;
+	spaces(34);  cout << BLUE << "|             Username:                               |" << RESET << endl;
+	spaces(34);  cout << BLUE << "|                                                     |" << RESET << endl;
+	spaces(34);  cout << BLUE << "|                                                     |" << RESET << endl;
+	spaces(34);  cout << BLUE << "|             Password:                               |" << RESET << endl;
+	spaces(34);  cout << BLUE << "|                                                     |" << RESET << endl;
+	spaces(34);  cout << BLUE << "|_____________________________________________________|" << RESET << endl;
 }
 
 void loginMenu(nanodbc::connection conn, USER& user)
@@ -123,16 +123,16 @@ void loginMenu(nanodbc::connection conn, USER& user)
 	void displayUsersManagement()
 	{
 		wait(400);
-		spaces(32); cout << " ________________________________________________________________" << endl;
-		spaces(32); cout << "|                                                               |" << endl;
-		spaces(32); cout << "|                       O P T I O N S                           |" << endl;
-		spaces(32); cout << "|                                                               |" << endl;
-		spaces(32); cout << "|                       1) Add new user                         |" << endl;
-		spaces(32); cout << "|                       2) Edit user by Id                      |" << endl;
-		spaces(32); cout << "|                       3) List all users                       |" << endl;
-		spaces(32); cout << "|                       4) Delete user by Id                    |" << endl;
-		spaces(32); cout << "|                       5) Return back                          |" << endl;
-		spaces(32); cout << "|_______________________________________________________________|" << endl;
+		spaces(32); cout<<YELLOW<< " ________________________________________________________________" <<RESET<<endl;
+		spaces(32); cout<<YELLOW<< "|                                                               |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW<< "|                       O P T I O N S                           |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW<< "|                                                               |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW<< "|                       1) Add new user                         |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW<< "|                       2) Edit user by Id                      |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW<< "|                       3) List all users                       |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW<< "|                       4) Delete user by Id                    |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW<< "|                       5) Return back                          |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW<< "|_______________________________________________________________|" <<RESET<<endl;
 		cout << endl;
 	}
 	bool usersManagement(nanodbc::connection conn, USER& user)
@@ -149,6 +149,7 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		case 1: {
 			system("cls");
 			createUser(conn);
+			wait(400);
 			system("cls");
 			adminOptions(conn, user);
 			break;
@@ -156,6 +157,7 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		case 2: {
 			system("cls");
 			editUser(conn);
+			wait(400);
 			system("cls");
 			adminOptions(conn, user);
 			break;
@@ -163,13 +165,13 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		case 3: {
 			system("cls");
 			listAllUsers(conn);
-			system("cls");
 			adminOptions(conn, user);
 			break;
 		}
 		case 4: {
 			system("cls");
 			deleteUser(conn);
+			wait(400);
 			system("cls");
 			adminOptions(conn, user);
 			break;
@@ -188,16 +190,16 @@ void loginMenu(nanodbc::connection conn, USER& user)
 	void displayTeamsManagement()
 	{
 		wait(400);
-		spaces(32); cout << " ________________________________________________________________" << endl;
-		spaces(32); cout << "|                                                               |" << endl;
-		spaces(32); cout << "|                       O P T I O N S                           |" << endl;
-		spaces(32); cout << "|                                                               |" << endl;
-		spaces(32); cout << "|                       1) Add new team                         |" << endl;
-		spaces(32); cout << "|                       2) Edit team by Id                      |" << endl;
-		spaces(32); cout << "|                       3) List all teams                       |" << endl;
-		spaces(32); cout << "|                       4) Delete team by Id                    |" << endl;
-		spaces(32); cout << "|                       5) Return back                          |" << endl;
-		spaces(32); cout << "|_______________________________________________________________|" << endl;
+		spaces(32); cout<<YELLOW << " ________________________________________________________________" <<RESET<<endl;
+		spaces(32); cout<<YELLOW << "|                                                               |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW << "|                       O P T I O N S                           |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW << "|                                                               |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW << "|                       1) Add new team                         |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW << "|                       2) Edit team by Id                      |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW << "|                       3) List all teams                       |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW << "|                       4) Delete team by Id                    |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW << "|                       5) Return back                          |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW << "|_______________________________________________________________|" <<RESET<<endl;
 		cout << endl;
 	}
 	bool teamsManagement(nanodbc::connection conn, USER& user)
@@ -257,16 +259,16 @@ void loginMenu(nanodbc::connection conn, USER& user)
 	void displayProjectsManagement()
 	{
 		wait(400);
-		spaces(32); cout << " ________________________________________________________________" << endl;
-		spaces(32); cout << "|                                                               |" << endl;
-		spaces(32); cout << "|                       O P T I O N S                           |" << endl;
-		spaces(32); cout << "|                                                               |" << endl;
-		spaces(32); cout << "|                     1) Add new project                        |" << endl;
-		spaces(32); cout << "|                     2) Edit project by Id                     |" << endl;
-		spaces(32); cout << "|                     3) List all projects                      |" << endl;
-		spaces(32); cout << "|                     4) Delete projects by Id                  |" << endl;
-		spaces(32); cout << "|                     5) Return back                            |" << endl;
-		spaces(32); cout << "|_______________________________________________________________|" << endl;
+		spaces(32); cout<<YELLOW << " ________________________________________________________________" <<RESET<<endl;
+		spaces(32); cout<<YELLOW << "|                                                               |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW << "|                       O P T I O N S                           |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW << "|                                                               |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW << "|                     1) Add new project                        |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW << "|                     2) Edit project by Id                     |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW << "|                     3) List all projects                      |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW << "|                     4) Delete projects by Id                  |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW << "|                     5) Return back                            |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW << "|_______________________________________________________________|" <<RESET<<endl;
 		cout << endl;
 	}
 	bool projectsManagement(nanodbc::connection conn, USER& user)
@@ -311,6 +313,8 @@ void loginMenu(nanodbc::connection conn, USER& user)
 			if (user.id == user.idCreator or user.isAdmin)
 			{
 					PROJECTS::deleteProjectById(conn, id);
+					cout << endl;
+					cout << GREEN << "Deleted successfully!" << endl;
 			}
 			else {
 				spaces(34);	cout << "You cannot delete this team :)" << endl;
@@ -331,17 +335,17 @@ void loginMenu(nanodbc::connection conn, USER& user)
 	void displayTasksManagement()
 	{
 		wait(400);
-		spaces(32); cout << " ________________________________________________________________" << endl;
-		spaces(32); cout << "|                                                               |" << endl;
-		spaces(32); cout << "|                       O P T I O N S                           |" << endl;
-		spaces(32); cout << "|                                                               |" << endl;
-		spaces(32); cout << "|                      1) Add new task                          |" << endl;
-		spaces(32); cout << "|                      2) Edit task by Id                       |" << endl;
-		spaces(32); cout << "|                      3) List all tasks                        |" << endl;
-		spaces(32); cout << "|                      4) Delete task by Id                     |" << endl;
-		spaces(32); cout << "|                      5) View work logs for task by Id         |" << endl;
-		spaces(32); cout << "|                      6) Return back                           |" << endl;
-		spaces(32); cout << "|_______________________________________________________________|" << endl;
+		spaces(32); cout<<YELLOW<< " ________________________________________________________________" <<RESET<<endl;
+		spaces(32); cout<<YELLOW<< "|                                                               |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW<< "|                       O P T I O N S                           |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW<< "|                                                               |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW<< "|                      1) Add new task                          |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW<< "|                      2) Edit task by Id                       |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW<< "|                      3) List all tasks                        |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW<< "|                      4) Delete task by Id                     |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW<< "|                      5) View work logs for task by Id         |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW<< "|                      6) Return back                           |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW<< "|_______________________________________________________________|" <<RESET<<endl;
 		cout << endl;
 	}
 	bool tasksManagement(nanodbc::connection conn, USER& user)
@@ -388,6 +392,8 @@ void loginMenu(nanodbc::connection conn, USER& user)
 			if (user.id == task.idCreator or user.isAdmin)
 			{
 				TASKS::deleteTaskById(conn, id);
+				cout << endl;
+				cout << GREEN << "Deleted successfully!" << endl;
 			}
 			else {
 				spaces(34);	cout << "You cannot delete this task :)" << endl;
@@ -422,16 +428,16 @@ void loginMenu(nanodbc::connection conn, USER& user)
 	void displayLogsManagement()
 	{
 		wait(400);
-		spaces(32); cout << " ________________________________________________________________" << endl;
-		spaces(32); cout << "|                                                               |" << endl;
-		spaces(32); cout << "|                       O P T I O N S                           |" << endl;
-		spaces(32); cout << "|                                                               |" << endl;
-		spaces(32); cout << "|                     1) Add new work log                       |" << endl;
-		spaces(32); cout << "|                     2) Edit work log by Id                    |" << endl;
-		spaces(32); cout << "|                     3) List all work logs                     |" << endl;
-		spaces(32); cout << "|                     4) Delete work log by Id                  |" << endl;
-		spaces(32); cout << "|                     5) Return back                            |" << endl;
-		spaces(32); cout << "|_______________________________________________________________|" << endl;
+		spaces(32); cout <<YELLOW<< " ________________________________________________________________" <<RESET<<endl;
+		spaces(32); cout <<YELLOW<< "|                                                               |" <<RESET<<endl;
+		spaces(32); cout <<YELLOW<< "|                       O P T I O N S                           |" <<RESET<<endl;
+		spaces(32); cout <<YELLOW<< "|                                                               |" <<RESET<<endl;
+		spaces(32); cout <<YELLOW<< "|                     1) Add new work log                       |" <<RESET<<endl;
+		spaces(32); cout <<YELLOW<< "|                     2) Edit work log by Id                    |" <<RESET<<endl;
+		spaces(32); cout <<YELLOW<< "|                     3) List all work logs                     |" <<RESET<<endl;
+		spaces(32); cout <<YELLOW<< "|                     4) Delete work log by Id                  |" <<RESET<<endl;
+		spaces(32); cout <<YELLOW<< "|                     5) Return back                            |" <<RESET<<endl;
+		spaces(32); cout <<YELLOW<< "|_______________________________________________________________|" <<RESET<<endl;
 		cout << endl;
 	}
 	bool logManagement(nanodbc::connection conn, USER& user)
@@ -477,6 +483,8 @@ void loginMenu(nanodbc::connection conn, USER& user)
 			if (user.id == log.userId or user.isAdmin)
 			{
 				LOGS::deleteLogById(conn, id);
+				cout << endl;
+				cout << GREEN << "Deleted successfully!" << endl;
 			}
 			else {
 				spaces(34);	cout << "You cannot edit this team :)" << endl;
@@ -502,17 +510,17 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		spaces(33); cout << YELLOW << u8"■■ ■■ ■■ ■■  ■■     ■■     ■■     ■■   ■■  ■■  ■  ■■  ■■        " << RESET << endl;
 		spaces(33); cout << YELLOW << u8"■■■     ■■■  ■■■■■  ■■■■■  ■■■■■    ■■■    ■■     ■■  ■■■■■  ■■ " << RESET << endl;
 		
-		spaces(32); cout << " ________________________________________________________________" << endl;
-		spaces(32); cout << "|                                                               |" << endl;
-		spaces(32); cout << "|                       O P T I O N S                           |" << endl;
-		spaces(32); cout << "|                                                               |" << endl;
-		spaces(32); cout << "|                    1) Users management                        |" << endl;
-		spaces(32); cout << "|                    2) Teams management                        |" << endl;
-		spaces(32); cout << "|                    3) Projects management                     |" << endl;
-		spaces(32); cout << "|                    4) Tasks management                        |" << endl;
-		spaces(32); cout << "|                    5) Work log management                     |" << endl;
-		spaces(32); cout << "|                    6) Exit                                    |" << endl;
-		spaces(32); cout << "|_______________________________________________________________|" << endl;
+		spaces(32); cout<<YELLOW<< " ________________________________________________________________" <<RESET<<endl;
+		spaces(32); cout<<YELLOW<< "|                                                               |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW<< "|                       O P T I O N S                           |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW<< "|                                                               |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW<< "|                    1) Users management                        |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW<< "|                    2) Teams management                        |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW<< "|                    3) Projects management                     |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW<< "|                    4) Tasks management                        |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW<< "|                    5) Work log management                     |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW<< "|                    6) Exit                                    |" <<RESET<<endl;
+		spaces(32); cout<<YELLOW<< "|_______________________________________________________________|" <<RESET<<endl;
 		cout << endl;
 	}
 
@@ -576,14 +584,14 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		spaces(30); cout << YELLOW << u8"■■■     ■■■  ■■■■■  ■■■■■  ■■■■■    ■■■    ■■     ■■  ■■■■■  ■■ " << RESET << endl;
 		cout << endl;
 		wait(400);
-		spaces(32); cout << " ________________________________________________________________" << endl;
-		spaces(32); cout << "|                                                               |" << endl;
-		spaces(32); cout << "|                       O P T I O N S                           |" << endl;
-		spaces(32); cout << "|                                                               |" << endl;
-		spaces(32); cout << "|                    1) Projects management                     |" << endl;
-		spaces(32); cout << "|                    2) Tasks management                        |" << endl;
-		spaces(32); cout << "|                    3) Exit                                    |" << endl;
-		spaces(32); cout << "|_______________________________________________________________|" << endl;
+		spaces(32); cout <<YELLOW<<" ________________________________________________________________" <<RESET<<endl;
+		spaces(32); cout <<YELLOW<<"|                                                               |" <<RESET<<endl;
+		spaces(32); cout <<YELLOW<<"|                       O P T I O N S                           |" <<RESET<<endl;
+		spaces(32); cout <<YELLOW<<"|                                                               |" <<RESET<<endl;
+		spaces(32); cout <<YELLOW<<"|                    1) Projects management                     |" <<RESET<<endl;
+		spaces(32); cout <<YELLOW<<"|                    2) Tasks management                        |" <<RESET<<endl;
+		spaces(32); cout <<YELLOW<<"|                    3) Exit                                    |" <<RESET<<endl;
+		spaces(32); cout <<YELLOW<<"|_______________________________________________________________|" <<RESET<<endl;
 		cout << endl;
 	}
 

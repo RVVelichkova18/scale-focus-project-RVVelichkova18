@@ -58,27 +58,23 @@ void createUser(nanodbc::connection conn)
            [ManagementSystemProject].[dbo].[Users]
             (Username, Password, FirstName, LastName, DateOfCreation, IdCreator, DateOfLastChange, IdLastChange, isAdmin)
             VALUES
-            ( ?, ?, ?, ?, GETDATE(), ?,GETDATE(), ?,0)
+            ( ?, ?, ?, ?, GETDATE(), 1,GETDATE(), 1,0)
     )"));
-
-	cout << "Enter the username: ";
+	cout << endl;
+	spaces(32); cout << " ________________________________________________________________" << endl;
+	cout << endl;
+	spaces(38); cout << "Enter the username: ";
 	const string username = cinLine();
 	statement.bind(0, username.c_str());
-	cout << "Enter the password: ";
+	spaces(38); cout << "Enter the password: ";
 	const string password = cinLine();
 	statement.bind(1, password.c_str());
-	cout << "Enter the first name: ";
+	spaces(38); cout << "Enter the first name: ";
 	const string firstName = cinLine();
 	statement.bind(2, firstName.c_str());
-	cout << "Enter the last name: ";
+	spaces(38); cout << "Enter the last name: ";
 	const string lastName = cinLine();
 	statement.bind(3, lastName.c_str());
-	cout << "Enter the id of the creator: ";
-	const int idCreator = cinNumber();
-	statement.bind(4, &idCreator);
-	cout << "Enter the id of the person that did the last change: ";
-	const int idLastChange = cinNumber();
-	statement.bind(5, &idLastChange);
 
 	execute(statement);
 }
@@ -188,6 +184,8 @@ void deleteUser(nanodbc::connection conn)
 	int id = cinNumber();
 
 	USER::deleteUserById(conn, id);
+	cout << endl;
+	cout << GREEN <<"Deleted successfully!" << endl;
 }
 
 //functions managing teams
@@ -311,6 +309,8 @@ void deleteTeam(nanodbc::connection conn)
 	int id = cinNumber();
 
 	TEAMS::deleteTeamById(conn, id);
+	cout << endl;
+	cout << GREEN << "Deleted successfully!" << endl;
 }
 
 //functions managing projects
@@ -673,33 +673,35 @@ void createLog(nanodbc::connection conn)
             VALUES
             ( ?, ?, ?, ?)
     )"));
-
-	cout << "Enter task id: ";
+	cout << endl;
+	spaces(32); cout << " ________________________________________________________________" << endl;
+	cout << endl;
+	spaces(38); cout << "Enter task id: ";
 	const int taskId = cinNumber();
 	statement.bind(0, &taskId);
 
-	cout << "Enter assignee id: ";
+	spaces(38); cout << "Enter assignee id: ";
 	const int userId = cinNumber();
 	statement.bind(1, &userId);
 
-	cout << "Enter working hours: ";
+	spaces(38); cout << "Enter working hours: ";
 	const int time = cinNumber();
 	statement.bind(2, &time);
 
 	nanodbc::date date;
 
-	cout << "Enter year: ";
+	spaces(38); cout << "Enter year: ";
 	date.year = cinNumber();
 
-	cout << "Enter month: ";
+	spaces(38); cout << "Enter month: ";
 	date.month = cinNumber();
 
-	cout << "Enter day: ";
+	spaces(38); cout << "Enter day: ";
 	date.day = cinNumber();
 
 
 	statement.bind(3, &date);
-
+	spaces(32); cout << " ________________________________________________________________" << endl;
 	execute(statement);
 }
 void editLog(nanodbc::connection conn, const int& id)
@@ -837,46 +839,18 @@ LOGS getLogByTaskId(nanodbc::connection conn, int& taskId)
 }
 
 ////password
-//void enterPassword(int* code)
+//void enterPassword(string* code)
 //{
 //	string    = "";
-//	int digit;
+//	string pass;
 //
-//	while (strCode.size() < 9)
-//	{
-//
-//		digit = _getch();
+//		pass = _getch();
 //		cout << YELLOW << '*' << RESET;
-//
-//		while (digit < 48 or digit>57)
-//		{
-//			cout << endl;
-//			strCode = "";
-//			cout << endl << RED <<"ups"<< RESET << RESET;
-//			digit = _getch();
-//			cout << YELLOW << '*' << RESET;
-//		}
-//
-//		while (digit > 55)
-//		{
-//			cout << endl;
-//			strCode = "";
-//			cout << endl << RED << "You have to enter a digit between 0 and 7! Please, try again: " << RESET;
-//			digit = _getch();
-//			cout << YELLOW << '*' << RESET;
-//		}
-//
-//		strCode.push_back(digit);
-//
-//		cout << " ";
-//
-//	}
-//	cout << endl;
-//	for (int i = 0; i < 4; i++)
-//	{
-//		code[i] = strCode[i] - 48;
-//	}
 //}
+
+
+
+
 //functions for authentication
 USER loginDataCheck(nanodbc::connection conn, string username, string password)
 {

@@ -10,7 +10,7 @@ struct TEAMS;
 struct PROJECTS;
 struct TASKS;
 struct LOGS;
-
+void spaces(int n);
 void wait(int delay = 350);
 bool adminOptions(nanodbc::connection conn, USER& user);
 bool userOptions(nanodbc::connection conn, USER& user);
