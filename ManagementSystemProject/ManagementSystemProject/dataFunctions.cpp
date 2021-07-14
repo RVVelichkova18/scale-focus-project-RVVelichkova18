@@ -838,14 +838,24 @@ LOGS getLogByTaskId(nanodbc::connection conn, int& taskId)
 	return log;
 }
 
-////password
+//
 //void enterPassword(string* code)
 //{
-//	string    = "";
-//	string pass;
-//
-//		pass = _getch();
-//		cout << YELLOW << '*' << RESET;
+// char star;
+//	star = _getch();
+//while (star != 13) {
+//	if (star == 8) {
+//		if (password.length() > 0) {
+//			cout << "/b /b";
+//			password.pop_back();
+//		}
+//	}
+//	else {
+//		cout << "*";
+//		password = star;
+//	}
+//	star = _getch();
+//}
 //}
 
 //functions for authentication
