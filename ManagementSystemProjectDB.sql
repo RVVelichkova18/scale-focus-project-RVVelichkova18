@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [ManagementSystemProject]    Script Date: 7/13/2021 2:18:15 PM ******/
+/****** Object:  Database [ManagementSystemProject]    Script Date: 7/14/2021 9:45:45 PM ******/
 CREATE DATABASE [ManagementSystemProject]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -73,7 +73,7 @@ ALTER DATABASE [ManagementSystemProject] SET DELAYED_DURABILITY = DISABLED
 GO
 USE [ManagementSystemProject]
 GO
-/****** Object:  Table [dbo].[Projects]    Script Date: 7/13/2021 2:18:15 PM ******/
+/****** Object:  Table [dbo].[Projects]    Script Date: 7/14/2021 9:45:45 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -93,7 +93,7 @@ CREATE TABLE [dbo].[Projects](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ProjectsTeams]    Script Date: 7/13/2021 2:18:15 PM ******/
+/****** Object:  Table [dbo].[ProjectsTeams]    Script Date: 7/14/2021 9:45:45 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -108,7 +108,7 @@ CREATE TABLE [dbo].[ProjectsTeams](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Tasks]    Script Date: 7/13/2021 2:18:15 PM ******/
+/****** Object:  Table [dbo].[Tasks]    Script Date: 7/14/2021 9:45:45 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -131,7 +131,7 @@ CREATE TABLE [dbo].[Tasks](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Teams]    Script Date: 7/13/2021 2:18:15 PM ******/
+/****** Object:  Table [dbo].[Teams]    Script Date: 7/14/2021 9:45:45 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -150,7 +150,7 @@ CREATE TABLE [dbo].[Teams](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Users]    Script Date: 7/13/2021 2:18:15 PM ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 7/14/2021 9:45:45 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -173,7 +173,7 @@ CREATE TABLE [dbo].[Users](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UsersTeams]    Script Date: 7/13/2021 2:18:15 PM ******/
+/****** Object:  Table [dbo].[UsersTeams]    Script Date: 7/14/2021 9:45:45 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -188,7 +188,7 @@ CREATE TABLE [dbo].[UsersTeams](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[WorkLog]    Script Date: 7/13/2021 2:18:15 PM ******/
+/****** Object:  Table [dbo].[WorkLog]    Script Date: 7/14/2021 9:45:45 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -197,7 +197,7 @@ CREATE TABLE [dbo].[WorkLog](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[TaskId] [int] NOT NULL,
 	[UserId] [int] NOT NULL,
-	[Time] [datetime2](0) NOT NULL,
+	[Time] [int] NOT NULL,
 	[Date] [datetime2](0) NOT NULL,
 	[isDeleted] [bit] NOT NULL,
  CONSTRAINT [PK_WorkLog] PRIMARY KEY CLUSTERED 
@@ -205,6 +205,42 @@ CREATE TABLE [dbo].[WorkLog](
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[Projects] ON 
+GO
+INSERT [dbo].[Projects] ([Id], [Title], [Description], [DateOfCreation], [IdCreator], [DateLastChange], [IdLastChange], [isDeleted]) VALUES (1, N'Musaka', N'VERY TASTY MANDJA', CAST(N'2021-07-13T15:01:06.0000000' AS DateTime2), 2, CAST(N'2021-07-14T17:33:27.0000000' AS DateTime2), 1, 0)
+GO
+INSERT [dbo].[Projects] ([Id], [Title], [Description], [DateOfCreation], [IdCreator], [DateLastChange], [IdLastChange], [isDeleted]) VALUES (2, N'Strings', N'c++ strings', CAST(N'2021-07-14T14:43:19.0000000' AS DateTime2), 1, CAST(N'2021-07-14T14:43:19.0000000' AS DateTime2), 1, 0)
+GO
+INSERT [dbo].[Projects] ([Id], [Title], [Description], [DateOfCreation], [IdCreator], [DateLastChange], [IdLastChange], [isDeleted]) VALUES (3, N'Makaroni', N'makaroni sus sirene', CAST(N'2021-07-14T14:43:51.0000000' AS DateTime2), 4, CAST(N'2021-07-14T14:43:51.0000000' AS DateTime2), 5, 0)
+GO
+INSERT [dbo].[Projects] ([Id], [Title], [Description], [DateOfCreation], [IdCreator], [DateLastChange], [IdLastChange], [isDeleted]) VALUES (5, N'Novata Pesen Na Azis', N'Dolen kuchek', CAST(N'2021-07-14T18:29:57.0000000' AS DateTime2), 1, CAST(N'2021-07-14T18:29:57.0000000' AS DateTime2), 1, 0)
+GO
+SET IDENTITY_INSERT [dbo].[Projects] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Tasks] ON 
+GO
+INSERT [dbo].[Tasks] ([Id], [ProjectId], [UserId], [Title], [Description], [Status], [DateOfCreation], [IdCreator], [DateLastChange], [IdLastChange], [isDeleted]) VALUES (1, 1, 3, N'test', N'test', 1, CAST(N'2021-07-13T18:28:16.960' AS DateTime), 2, CAST(N'2021-07-13T18:28:16.960' AS DateTime), 2, 0)
+GO
+INSERT [dbo].[Tasks] ([Id], [ProjectId], [UserId], [Title], [Description], [Status], [DateOfCreation], [IdCreator], [DateLastChange], [IdLastChange], [isDeleted]) VALUES (2, 2, 4, N'koko', N'koko', 2, CAST(N'2021-07-14T14:46:11.383' AS DateTime), 3, CAST(N'2021-07-14T14:46:11.383' AS DateTime), 4, 0)
+GO
+INSERT [dbo].[Tasks] ([Id], [ProjectId], [UserId], [Title], [Description], [Status], [DateOfCreation], [IdCreator], [DateLastChange], [IdLastChange], [isDeleted]) VALUES (3, 3, 3, N'2', N'2', 1, CAST(N'2021-07-14T15:41:04.690' AS DateTime), 1, CAST(N'2021-07-14T15:41:04.690' AS DateTime), 1, 1)
+GO
+INSERT [dbo].[Tasks] ([Id], [ProjectId], [UserId], [Title], [Description], [Status], [DateOfCreation], [IdCreator], [DateLastChange], [IdLastChange], [isDeleted]) VALUES (4, 3, 2, N'Go to Galena''s uchastie', N'Sing with Galena on the stage', 2, CAST(N'2021-07-14T18:10:11.333' AS DateTime), 1, CAST(N'2021-07-14T18:17:24.047' AS DateTime), 1, 0)
+GO
+SET IDENTITY_INSERT [dbo].[Tasks] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Teams] ON 
+GO
+INSERT [dbo].[Teams] ([Id], [Title], [DateOfCreation], [IdCreator], [DateLastChange], [IdLastChange], [isDeleted]) VALUES (1, N'Musaka', CAST(N'2021-07-13T14:42:48.920' AS DateTime), 1, CAST(N'2021-07-13T14:42:48.920' AS DateTime), 1, 1)
+GO
+INSERT [dbo].[Teams] ([Id], [Title], [DateOfCreation], [IdCreator], [DateLastChange], [IdLastChange], [isDeleted]) VALUES (2, N'Makaron', CAST(N'2021-07-14T14:45:18.540' AS DateTime), 1, CAST(N'2021-07-14T14:45:18.540' AS DateTime), 1, 0)
+GO
+INSERT [dbo].[Teams] ([Id], [Title], [DateOfCreation], [IdCreator], [DateLastChange], [IdLastChange], [isDeleted]) VALUES (3, N'Planeta', CAST(N'2021-07-14T14:45:31.053' AS DateTime), 1, CAST(N'2021-07-14T17:36:04.160' AS DateTime), 1, 0)
+GO
+INSERT [dbo].[Teams] ([Id], [Title], [DateOfCreation], [IdCreator], [DateLastChange], [IdLastChange], [isDeleted]) VALUES (4, N'Payner', CAST(N'2021-07-14T17:35:39.750' AS DateTime), 1, CAST(N'2021-07-14T17:35:39.750' AS DateTime), 1, 0)
+GO
+SET IDENTITY_INSERT [dbo].[Teams] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Users] ON 
 GO
@@ -214,13 +250,35 @@ INSERT [dbo].[Users] ([Id], [Username], [Password], [FirstName], [LastName], [Da
 GO
 INSERT [dbo].[Users] ([Id], [Username], [Password], [FirstName], [LastName], [DateOfCreation], [IdCreator], [DateOfLastChange], [IdLastChange], [isAdmin], [isDeleted]) VALUES (3, N'sandonova', N'sandonovapass', N'Stanislava', N'Andonova', CAST(N'2021-07-08T09:41:13.0000000' AS DateTime2), 1, CAST(N'2021-07-08T15:54:52.0000000' AS DateTime2), 1, 0, 0)
 GO
-INSERT [dbo].[Users] ([Id], [Username], [Password], [FirstName], [LastName], [DateOfCreation], [IdCreator], [DateOfLastChange], [IdLastChange], [isAdmin], [isDeleted]) VALUES (4, N'skolev', N'skolevpass', N'Stoqn', N'Kolew', CAST(N'2021-07-08T15:54:52.0000000' AS DateTime2), 1, CAST(N'2021-07-08T15:54:52.0000000' AS DateTime2), 1, 0, 0)
+INSERT [dbo].[Users] ([Id], [Username], [Password], [FirstName], [LastName], [DateOfCreation], [IdCreator], [DateOfLastChange], [IdLastChange], [isAdmin], [isDeleted]) VALUES (4, N'skolev', N'skolevpass', N'Stoqn', N'Kolew', CAST(N'2021-07-08T15:54:52.0000000' AS DateTime2), 1, CAST(N'2021-07-08T15:54:52.0000000' AS DateTime2), 1, 0, 1)
 GO
 INSERT [dbo].[Users] ([Id], [Username], [Password], [FirstName], [LastName], [DateOfCreation], [IdCreator], [DateOfLastChange], [IdLastChange], [isAdmin], [isDeleted]) VALUES (5, N'iiliev', N'iilievpass', N'Ilko', N'Iliev', CAST(N'2021-07-12T16:53:23.0000000' AS DateTime2), 1, CAST(N'2021-07-12T16:53:23.0000000' AS DateTime2), 1, 0, 1)
 GO
+INSERT [dbo].[Users] ([Id], [Username], [Password], [FirstName], [LastName], [DateOfCreation], [IdCreator], [DateOfLastChange], [IdLastChange], [isAdmin], [isDeleted]) VALUES (6, N'user`', N'userpass', N'User', N'Usera', CAST(N'2021-07-14T14:39:46.0000000' AS DateTime2), 1, CAST(N'2021-07-14T14:39:46.0000000' AS DateTime2), 1, 0, 0)
+GO
+INSERT [dbo].[Users] ([Id], [Username], [Password], [FirstName], [LastName], [DateOfCreation], [IdCreator], [DateOfLastChange], [IdLastChange], [isAdmin], [isDeleted]) VALUES (7, N'gogo', N'gogopass', N'gogo', N'gogov', CAST(N'2021-07-14T14:41:26.0000000' AS DateTime2), 1, CAST(N'2021-07-14T14:41:26.0000000' AS DateTime2), 1, 0, 0)
+GO
+INSERT [dbo].[Users] ([Id], [Username], [Password], [FirstName], [LastName], [DateOfCreation], [IdCreator], [DateOfLastChange], [IdLastChange], [isAdmin], [isDeleted]) VALUES (8, N'koko', N'kokov', N'kkokooko', N'lololo', CAST(N'2021-07-14T14:58:27.0000000' AS DateTime2), 1, CAST(N'2021-07-14T14:58:27.0000000' AS DateTime2), 1, 0, 1)
+GO
+INSERT [dbo].[Users] ([Id], [Username], [Password], [FirstName], [LastName], [DateOfCreation], [IdCreator], [DateOfLastChange], [IdLastChange], [isAdmin], [isDeleted]) VALUES (9, N'Fiki', N'fiki1216', N'Fikretchu', N'Storaro', CAST(N'2021-07-14T17:30:39.0000000' AS DateTime2), 1, CAST(N'2021-07-14T17:31:26.0000000' AS DateTime2), 1, 0, 0)
+GO
+INSERT [dbo].[Users] ([Id], [Username], [Password], [FirstName], [LastName], [DateOfCreation], [IdCreator], [DateOfLastChange], [IdLastChange], [isAdmin], [isDeleted]) VALUES (10, N'AzisEGotin', N'Kondio', N'Azis', N'Azisov', CAST(N'2021-07-14T19:27:07.0000000' AS DateTime2), 1, CAST(N'2021-07-14T19:27:07.0000000' AS DateTime2), 1, 0, 0)
+GO
+INSERT [dbo].[Users] ([Id], [Username], [Password], [FirstName], [LastName], [DateOfCreation], [IdCreator], [DateOfLastChange], [IdLastChange], [isAdmin], [isDeleted]) VALUES (11, N'koko', N'kokovpass', N'Kiko', N'Kirilov', CAST(N'2021-07-14T21:44:06.0000000' AS DateTime2), 1, CAST(N'2021-07-14T21:44:06.0000000' AS DateTime2), 1, 0, 0)
+GO
 SET IDENTITY_INSERT [dbo].[Users] OFF
 GO
-/****** Object:  Index [IX_ProjectsTeams]    Script Date: 7/13/2021 2:18:15 PM ******/
+SET IDENTITY_INSERT [dbo].[WorkLog] ON 
+GO
+INSERT [dbo].[WorkLog] ([Id], [TaskId], [UserId], [Time], [Date], [isDeleted]) VALUES (1, 1, 3, 7, CAST(N'2021-07-14T14:50:15.0000000' AS DateTime2), 0)
+GO
+INSERT [dbo].[WorkLog] ([Id], [TaskId], [UserId], [Time], [Date], [isDeleted]) VALUES (2, 2, 2, 4, CAST(N'2021-07-14T14:50:32.0000000' AS DateTime2), 0)
+GO
+INSERT [dbo].[WorkLog] ([Id], [TaskId], [UserId], [Time], [Date], [isDeleted]) VALUES (3, 4, 2, 23, CAST(N'2021-12-04T00:00:00.0000000' AS DateTime2), 1)
+GO
+SET IDENTITY_INSERT [dbo].[WorkLog] OFF
+GO
+/****** Object:  Index [IX_ProjectsTeams]    Script Date: 7/14/2021 9:45:45 PM ******/
 CREATE NONCLUSTERED INDEX [IX_ProjectsTeams] ON [dbo].[ProjectsTeams]
 (
 	[ProjectId] ASC
@@ -323,6 +381,10 @@ ALTER TABLE [dbo].[WorkLog]  WITH CHECK ADD  CONSTRAINT [FK_WorkLog_Users1] FORE
 REFERENCES [dbo].[Users] ([Id])
 GO
 ALTER TABLE [dbo].[WorkLog] CHECK CONSTRAINT [FK_WorkLog_Users1]
+GO
+ALTER TABLE [dbo].[Tasks]  WITH CHECK ADD  CONSTRAINT [CK_Tasks] CHECK  (([Status]>=(0) OR [Status]<=(2)))
+GO
+ALTER TABLE [dbo].[Tasks] CHECK CONSTRAINT [CK_Tasks]
 GO
 USE [master]
 GO
