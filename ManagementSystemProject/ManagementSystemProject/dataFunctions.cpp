@@ -40,15 +40,17 @@ std::string timestampToString(nanodbc::timestamp ts)
 //functions managing users
 void USER::displayUsers()
 {
-	cout << "User id: " << this->id << endl;
-	cout << "Username: " << this->username << endl;
-	cout << "Password: " << this->password << endl;
-	cout << "First Name: " << this->firstName << endl;
-	cout << "Last Name: " << this->lastName << endl;
-	cout << "Date of creation: " << timestampToString(this->dateOfCreation) << endl;
-	cout << "Id of the creator: " << this->idCreator << endl;
-	cout << "Date of last change: " << timestampToString(this->dateOfLastChange) << endl;
-	cout << "Id of the last changer: " << this->idLastChange << endl;
+	wait(400);
+	spaces(32); cout << PURPLE << " ________________________________________________________________" << RESET << endl;
+	spaces(38); cout << "User id: " << this->id << endl;
+	spaces(38); cout << "Username: " << this->username << endl;
+	spaces(38); cout << "Password: " << this->password << endl;
+	spaces(38); cout << "First Name: " << this->firstName << endl;
+	spaces(38); cout << "Last Name: " << this->lastName << endl;
+	spaces(38); cout << "Date of creation: " << timestampToString(this->dateOfCreation) << endl;
+	spaces(38); cout << "Id of the creator: " << this->idCreator << endl;
+	spaces(38); cout << "Date of last change: " << timestampToString(this->dateOfLastChange) << endl;
+	spaces(38); cout << "Id of the last changer: " << this->idLastChange << endl;
 }
 void createUser(nanodbc::connection conn)
 {
@@ -83,7 +85,7 @@ void editUser(nanodbc::connection conn)
 
 	nanodbc::statement statement(conn);
 
-	cout << "Enter id of the user that you want edit: " << endl;
+	spaces(38); cout << "Enter id of the user that you want edit: " << endl;
 	const int id = cinNumber();
 	nanodbc::prepare(statement, NANODBC_TEXT(R"(
       UPDATE [ManagementSystemProject].[dbo].[Users]
@@ -97,24 +99,19 @@ void editUser(nanodbc::connection conn)
 	  WHERE Id=? AND isDeleted<>1
     )"));
 
-	cout << "Enter the username: ";
-	const string username = cinLine();
+	spaces(32); cout << "Enter the username: "; const string username = cinLine();
 	statement.bind(0, username.c_str());
 
-	cout << "Enter the password: ";
-	const string password = cinLine();
+	spaces(32); cout << "Enter the password: "; const string password = cinLine();
 	statement.bind(1, password.c_str());
 
-	cout << "Enter the first name: ";
-	const string firstName = cinLine();
+	spaces(32); cout << "Enter the first name: "; const string firstName = cinLine();
 	statement.bind(2, firstName.c_str());
 
-	cout << "Enter the last name: ";
-	const string lastName = cinLine();
+	spaces(32); cout << "Enter the last name: "; const string lastName = cinLine();
 	statement.bind(3, lastName.c_str());
 
-	cout << "Enter the id of the person that did the last change: ";
-	const int idLastChange = cinNumber();
+	spaces(32); cout << "Enter the id of the person that did the last change: "; const int idLastChange = cinNumber();
 	statement.bind(4, &idLastChange);
 
 	statement.bind(5, &id);
@@ -180,23 +177,25 @@ void deleteUser(nanodbc::connection conn)
 {
 
 	nanodbc::statement statement(conn);
-	cout << "Enter id of the user that you want edit: " << endl;
+	spaces(38); cout << "Enter id of the user that you want edit: " << endl;
 	int id = cinNumber();
 
 	USER::deleteUserById(conn, id);
 	cout << endl;
-	cout << GREEN << "Deleted successfully!" << endl;
+	spaces(38); cout << GREEN << "Deleted successfully!" << endl;
 }
 
 //functions managing teams
 void TEAMS::displayTeams()
 {
-	cout << "Team id: " << this->id << endl;
-	cout << "Title: " << this->title << endl;
-	cout << "Date of creation: " << timestampToString(this->dateOfCreation) << endl;
-	cout << "Id of the creator: " << this->idCreator << endl;
-	cout << "Date of last change: " << timestampToString(this->dateOfLastChange) << endl;
-	cout << "Id of the last changer: " << this->idLastChange << endl;
+	wait(400);
+	spaces(32); cout << PURPLE << " ________________________________________________________________" << RESET << endl;
+	spaces(38); cout << "Team id: " << this->id << endl;
+	spaces(38); cout << "Title: " << this->title << endl;
+	spaces(38); cout << "Date of creation: " << timestampToString(this->dateOfCreation) << endl;
+	spaces(38); cout << "Id of the creator: " << this->idCreator << endl;
+	spaces(38); cout << "Date of last change: " << timestampToString(this->dateOfLastChange) << endl;
+	spaces(38); cout << "Id of the last changer: " << this->idLastChange << endl;
 }
 void createTeam(nanodbc::connection conn)
 {
@@ -228,7 +227,7 @@ void editTeam(nanodbc::connection conn)
 
 	nanodbc::statement statement(conn);
 
-	cout << "Enter id of the team that you want edit: " << endl;
+	spaces(38); cout << "Enter id of the team that you want edit: " << endl;
 	const int id = cinNumber();
 	nanodbc::prepare(statement, NANODBC_TEXT(R"(
       UPDATE [ManagementSystemProject].[dbo].[Teams]
@@ -239,12 +238,10 @@ void editTeam(nanodbc::connection conn)
 	  WHERE Id=? AND isDeleted<>1
     )"));
 
-	cout << "Enter the team's new name: ";
-	const string title = cinLine();
+	spaces(32); cout << "Enter the team's new name: "; const string title = cinLine();
 	statement.bind(0, title.c_str());
 
-	cout << "Enter the id of the person that did the last change: ";
-	const int idLastChange = cinNumber();
+	spaces(32); cout << "Enter the id of the person that did the last change: "; const int idLastChange = cinNumber();
 	statement.bind(1, &idLastChange);
 
 	statement.bind(2, &id);
@@ -305,24 +302,26 @@ void deleteTeam(nanodbc::connection conn)
 {
 
 	nanodbc::statement statement(conn);
-	cout << "Enter id of the team that you want delete: " << endl;
+	spaces(38); cout << "Enter id of the team that you want delete: " << endl;
 	int id = cinNumber();
 
 	TEAMS::deleteTeamById(conn, id);
 	cout << endl;
-	cout << GREEN << "Deleted successfully!" << endl;
+	spaces(38); cout << GREEN << "Deleted successfully!" << endl;
 }
 
 //functions managing projects
 void PROJECTS::displayProjects()
 {
-	cout << "Project id: " << this->id << endl;
-	cout << "Title: " << this->title << endl;
-	cout << "Description: " << this->description << endl;
-	cout << "Date of creation: " << timestampToString(this->dateOfCreation) << endl;
-	cout << "Id of the creator: " << this->idCreator << endl;
-	cout << "Date of last change: " << timestampToString(this->dateOfLastChange) << endl;
-	cout << "Id of the last changer: " << this->idLastChange << endl;
+	wait(400);
+	spaces(32); cout << PURPLE << " ________________________________________________________________" << RESET << endl;
+	spaces(38); cout << "Project id: " << this->id << endl;
+	spaces(38); cout << "Title: " << this->title << endl;
+	spaces(38); cout << "Description: " << this->description << endl;
+	spaces(38); cout << "Date of creation: " << timestampToString(this->dateOfCreation) << endl;
+	spaces(38); cout << "Id of the creator: " << this->idCreator << endl;
+	spaces(38); cout << "Date of last change: " << timestampToString(this->dateOfLastChange) << endl;
+	spaces(38); cout << "Id of the last changer: " << this->idLastChange << endl;
 }
 void createProject(nanodbc::connection conn)
 {
@@ -355,7 +354,7 @@ void createProject(nanodbc::connection conn)
 }
 void editProject(nanodbc::connection conn, const int& id)
 {
-
+	
 	nanodbc::statement statement(conn);
 	nanodbc::prepare(statement, NANODBC_TEXT(R"(
       UPDATE [ManagementSystemProject].[dbo].[Projects]
@@ -367,16 +366,13 @@ void editProject(nanodbc::connection conn, const int& id)
 	  WHERE Id=? AND isDeleted<>1
     )"));
 
-	cout << "Enter the title: ";
-	const string title = cinLine();
+	spaces(32); cout << "Enter the title: "; const string title = cinLine();
 	statement.bind(0, title.c_str());
 
-	cout << "Enter description: ";
-	const string description = cinLine();
+	spaces(32); cout << "Enter description: "; const string description = cinLine();
 	statement.bind(1, description.c_str());
 
-	cout << "Enter the id of the person that did the last change: ";
-	const int idLastChange = cinNumber();
+	spaces(32); cout << "Enter the id of the person that did the last change: "; const int idLastChange = cinNumber();
 	statement.bind(2, &idLastChange);
 
 	statement.bind(3, &id);
@@ -474,18 +470,18 @@ string getTaskStatusName(TASK_STATUS& ts)
 }
 void TASKS::displayTasks()
 {
-	cout << "Task id: " << this->id << endl;
-	cout << "Project id: " << this->projectId << endl;
-	cout << "User id: " << this->userId << endl;
-	cout << "Title: " << this->title << endl;
-	cout << "Description: " << this->description << endl;
-	cout << "Status: " << getTaskStatusName(this->status) << endl;
-	cout << "Date of creation: " << timestampToString(this->dateOfCreation) << endl;
-	cout << "Id of the creator: " << this->idCreator << endl;
-	cout << "Date of last change: " << timestampToString(this->dateOfLastChange) << endl;
-	cout << "Id of the last changer: " << this->idLastChange << endl;
-
-	// task.status = (TASK_STATUS)result.get<int>("Status")
+	wait(400);
+	spaces(32); cout << PURPLE << " ________________________________________________________________" << RESET << endl;
+	spaces(38); cout << "Task id: " << this->id << endl;
+	spaces(38); cout << "Project id: " << this->projectId << endl;
+	spaces(38); cout << "User id: " << this->userId << endl;
+	spaces(38); cout << "Title: " << this->title << endl;
+	spaces(38); cout << "Description: " << this->description << endl;
+	spaces(38); cout << "Status: " << getTaskStatusName(this->status) << endl;
+	spaces(38); cout << "Date of creation: " << timestampToString(this->dateOfCreation) << endl;
+	spaces(38); cout << "Id of the creator: " << this->idCreator << endl;
+	spaces(38); cout << "Date of last change: " << timestampToString(this->dateOfLastChange) << endl;
+	spaces(38); cout << "Id of the last changer: " << this->idLastChange << endl;
 
 }
 void createTask(nanodbc::connection conn)
@@ -499,39 +495,39 @@ void createTask(nanodbc::connection conn)
             ( ?, ?, ?, ?, GETDATE(), ?, ?, GETDATE(), ?)
     )"));
 
-	cout << "Enter project id: ";
+	spaces(38); cout << "Enter project id: ";
 	const int projectId = cinNumber();
 	statement.bind(0, &projectId);
 
-	cout << "Enter assignee id: ";
+	spaces(38); cout << "Enter assignee id: ";
 	const int userId = cinNumber();
 	statement.bind(1, &userId);
 
-	cout << "Enter task's name: ";
+	spaces(38); cout << "Enter task's name: ";
 	const string title = cinLine();
 	statement.bind(2, title.c_str());
 
-	cout << "Enter task's description: ";
+	spaces(38); cout << "Enter task's description: ";
 	const string description = cinLine();
 	statement.bind(3, description.c_str());
 
 	int status;
 	do {
-		cout << "Enter task's status (0 - In Progress / 1 - Pending / 2 - Completed): ";
+		spaces(38); cout << "Enter task's status (0 - In Progress / 1 - Pending / 2 - Completed): ";
 		status = cinNumber();
 		if (status >= 0 and status <= 2) {
 			break;
 		}
-		cout <<RED<< "You have to ednter a digit between 0 and 2! Please, try again!" <<RESET<< endl;
+		spaces(38); cout <<RED<< "You have to ednter a digit between 0 and 2! Please, try again!" <<RESET<< endl;
 		cout << endl;
 	}while(true);
 	statement.bind(4, &status);
 
-	cout << "Enter the id of the creator: ";
+	spaces(38); cout << "Enter the id of the creator: ";
 	const int idCreator = cinNumber();
 	statement.bind(5, &idCreator);
 
-	cout << "Enter the id of the person that did the last change: ";
+	spaces(38); cout << "Enter the id of the person that did the last change: ";
 	const int idLastChange = cinNumber();
 	statement.bind(6, &idLastChange);
 
@@ -539,7 +535,6 @@ void createTask(nanodbc::connection conn)
 }
 void editTask(nanodbc::connection conn, const int& id)
 {
-
 	nanodbc::statement statement(conn);
 	nanodbc::prepare(statement, NANODBC_TEXT(R"(
       UPDATE [ManagementSystemProject].[dbo].[Tasks]
@@ -553,31 +548,26 @@ void editTask(nanodbc::connection conn, const int& id)
 	  WHERE Id=? AND isDeleted<>1
     )"));
 
-	cout << "Enter the id of the new assignee: ";
-	const string userId = cinLine();
+	spaces(32); cout << "Enter the id of the new assignee: "; const string userId = cinLine();
 	statement.bind(0, userId.c_str());
 
-	cout << "Enter the title: ";
-	const string title = cinLine();
+	spaces(32); cout << "Enter the title: "; const string title = cinLine();
 	statement.bind(0, title.c_str());
 
-	cout << "Enter description: ";
-	const string description = cinLine();
+	spaces(32); cout << "Enter description: "; const string description = cinLine();
 	statement.bind(1, description.c_str());
 	int status;
 	do {
-		cout << "Enter task's status (0 - In Progress / 1 - Pending / 2 - Completed): ";
-		status = cinNumber();
+		spaces(32); cout << "Enter task's status (0 - In Progress / 1 - Pending / 2 - Completed): "; status = cinNumber();
 		if (status >= 0 and status <= 2) {
 			break;
 		}
-		cout << RED << "You have to ednter a digit between 0 and 2! Please, try again!" << RESET << endl;
+		spaces(32); cout << RED << "You have to ednter a digit between 0 and 2! Please, try again!" << RESET << endl;
 		cout << endl;
 	} while (true);
 	statement.bind(4, &status);
 
-	cout << "Enter the id of the person that did the last change: ";
-	const int idLastChange = cinNumber();
+	spaces(32); cout << "Enter the id of the person that did the last change: "; const int idLastChange = cinNumber();
 	statement.bind(2, &idLastChange);
 
 	statement.bind(3, &id);
@@ -670,12 +660,15 @@ TASKS getTaskById(nanodbc::connection conn, int& id)
 }
 
 //functions managing work logs
-void LOGS::displayLogs() {
-	cout << "Log id: " << this->id << endl;
-	cout << "Task id: " << this->taskId << endl;
-	cout << "User id: " << this->userId << endl;
-	cout << "Time: " << this->time << endl;
-	cout << "Date: " << this->date.year << this->date.month << this->date.day << endl;
+void LOGS::displayLogs()
+{
+	wait(400);
+	spaces(32); cout << PURPLE << " ________________________________________________________________" << RESET << endl;
+	spaces(38); cout << "Log id: " << this->id << endl;
+	spaces(38); cout << "Task id: " << this->taskId << endl;
+	spaces(38); cout << "User id: " << this->userId << endl;
+	spaces(38); cout << "Time: " << this->time << endl;
+	spaces(38); cout << "Date: " << this->date.year << this->date.month << this->date.day << endl;
 }
 void createLog(nanodbc::connection conn)
 {
@@ -720,7 +713,6 @@ void createLog(nanodbc::connection conn)
 }
 void editLog(nanodbc::connection conn, const int& id)
 {
-
 	nanodbc::statement statement(conn);
 	nanodbc::prepare(statement, NANODBC_TEXT(R"(
       UPDATE [ManagementSystemProject].[dbo].[WorkLog]
@@ -732,20 +724,16 @@ void editLog(nanodbc::connection conn, const int& id)
 	  WHERE Id=? AND isDeleted<>1
     )"));
 
-	cout << "Enter the id of the new task: ";
-	const string taskId = cinLine();
+	spaces(32); cout << "Enter the id of the new task: "; const string taskId = cinLine();
 	statement.bind(0, taskId.c_str());
 
-	cout << "Enter the id of the new assignee:: ";
-	const string userId = cinLine();
+	spaces(32); cout<< "Enter the id of the new assignee:: "; const string userId = cinLine();
 	statement.bind(1, userId.c_str());
 
-	cout << "Enter working hours: ";
-	const string time = cinLine();
+	spaces(32); cout << "Enter working hours: "; const string time = cinLine();
 	statement.bind(2, time.c_str());
 
-	cout << "Enter  the date when you are going to work: ";
-	const string date = cinLine();
+	spaces(32); cout << "Enter  the date when you are going to work: "; const string date = cinLine();
 	statement.bind(3, date.c_str());
 
 	statement.bind(4, &id);
