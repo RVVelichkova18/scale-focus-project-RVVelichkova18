@@ -231,7 +231,7 @@ void editTeam(nanodbc::connection conn)
       UPDATE [ManagementSystemProject].[dbo].[Teams]
 	  SET
 			Title = ?
-			,DateOfLastChange = GETDATE()
+			,DateLastChange = GETDATE()
 			,IdLastChange = ?
 	  WHERE Id=? AND isDeleted<>1
     )"));
@@ -265,9 +265,9 @@ vector<TEAMS> getTeams(nanodbc::connection conn)
 		team.id = result.get<int>("Id");
 		team.title = result.get<nanodbc::string>("Title", "");
 		team.dateOfCreation = result.get<nanodbc::timestamp>("DateOfCreation", nanodbc::timestamp{});
-		team.idCreator = result.get<int>("idCreator", 0);
-		team.dateOfLastChange = result.get<nanodbc::timestamp>("DateOfLastChange", nanodbc::timestamp{});
-		team.idLastChange = result.get<int>("idLastChange", 0);
+		team.idCreator = result.get<int>("IdCreator", 0);
+		team.dateOfLastChange = result.get<nanodbc::timestamp>("DateLastChange", nanodbc::timestamp{});
+		team.idLastChange = result.get<int>("IdLastChange", 0);
 
 		teams.push_back(team);
 	}
@@ -359,7 +359,7 @@ void editProject(nanodbc::connection conn, const int& id)
 	  SET
 			Title = ?
 			,Description = ?
-			,DateOfLastChange = GETDATE()
+			,DateLastChange = GETDATE()
 			,IdLastChange = ?
 	  WHERE Id=? AND isDeleted<>1
     )"));
@@ -397,9 +397,9 @@ vector<PROJECTS> getProjects(nanodbc::connection conn)
 		project.title = result.get<nanodbc::string>("Title", "");
 		project.description = result.get<nanodbc::string>("Description", "");
 		project.dateOfCreation = result.get<nanodbc::timestamp>("DateOfCreation", nanodbc::timestamp{});
-		project.idCreator = result.get<int>("idCreator", 0);
-		project.dateOfLastChange = result.get<nanodbc::timestamp>("DateOfLastChange", nanodbc::timestamp{});
-		project.idLastChange = result.get<int>("idLastChange", 0);
+		project.idCreator = result.get<int>("IdCreator", 0);
+		project.dateOfLastChange = result.get<nanodbc::timestamp>("DateLastChange", nanodbc::timestamp{});
+		project.idLastChange = result.get<int>("IdLastChange", 0);
 
 		projects.push_back(project);
 	}
@@ -448,9 +448,9 @@ PROJECTS getProjectById(nanodbc::connection conn, int& id)
 		project.title = result.get<nanodbc::string>("Title", "");
 		project.description = result.get<nanodbc::string>("Description", "");
 		project.dateOfCreation = result.get<nanodbc::timestamp>("DateOfCreation", nanodbc::timestamp{});
-		project.idCreator = result.get<int>("idCreator", 0);
-		project.dateOfLastChange = result.get<nanodbc::timestamp>("DateOfLastChange", nanodbc::timestamp{});
-		project.idLastChange = result.get<int>("idLastChange", 0);
+		project.idCreator = result.get<int>("IdCreator", 0);
+		project.dateOfLastChange = result.get<nanodbc::timestamp>("DateLastChange", nanodbc::timestamp{});
+		project.idLastChange = result.get<int>("IdLastChange", 0);
 	}
 
 	return project;
@@ -541,7 +541,7 @@ void editTask(nanodbc::connection conn, const int& id)
 			,Title = ?
 			,Description = ?
 			,Status = ?
-			,DateOfLastChange = GETDATE()
+			,DateLastChange = GETDATE()
 			,IdLastChange = ?
 	  WHERE Id=? AND isDeleted<>1
     )"));
@@ -550,10 +550,10 @@ void editTask(nanodbc::connection conn, const int& id)
 	statement.bind(0, userId.c_str());
 
 	spaces(32); cout << "Enter the title: "; const string title = cinLine();
-	statement.bind(0, title.c_str());
+	statement.bind(1, title.c_str());
 
 	spaces(32); cout << "Enter description: "; const string description = cinLine();
-	statement.bind(1, description.c_str());
+	statement.bind(2, description.c_str());
 	int status;
 	do {
 		spaces(32); cout << "Enter task's status (0 - In Progress / 1 - Pending / 2 - Completed): "; status = cinNumber();
@@ -563,12 +563,12 @@ void editTask(nanodbc::connection conn, const int& id)
 		spaces(32); cout << RED << "You have to ednter a digit between 0 and 2! Please, try again!" << RESET << endl;
 		cout << endl;
 	} while (true);
-	statement.bind(4, &status);
+	statement.bind(3, &status);
 
 	spaces(32); cout << "Enter the id of the person that did the last change: "; const int idLastChange = cinNumber();
-	statement.bind(2, &idLastChange);
+	statement.bind(4, &idLastChange);
 
-	statement.bind(3, &id);
+	statement.bind(5, &id);
 
 	execute(statement);
 }
@@ -595,9 +595,9 @@ vector<TASKS> getTasks(nanodbc::connection conn)
 		task.description = result.get<nanodbc::string>("Description", "");
 		task.status = (TASK_STATUS)result.get<int>("Status");
 		task.dateOfCreation = result.get<nanodbc::timestamp>("DateOfCreation", nanodbc::timestamp{});
-		task.idCreator = result.get<int>("idCreator", 0);
-		task.dateOfLastChange = result.get<nanodbc::timestamp>("DateOfLastChange", nanodbc::timestamp{});
-		task.idLastChange = result.get<int>("idLastChange", 0);
+		task.idCreator = result.get<int>("IdCreator", 0);
+		task.dateOfLastChange = result.get<nanodbc::timestamp>("DateLastChange", nanodbc::timestamp{});
+		task.idLastChange = result.get<int>("IdLastChange", 0);
 
 		tasks.push_back(task);
 	}
@@ -666,7 +666,7 @@ void LOGS::displayLogs()
 	spaces(38); cout << "Task id: " << this->taskId << endl;
 	spaces(38); cout << "User id: " << this->userId << endl;
 	spaces(38); cout << "Time: " << this->time << endl;
-	spaces(38); cout << "Date: " << this->date.year << this->date.month << this->date.day << endl;
+	spaces(38); cout << "Date: " << this->date.year << "-"<<this->date.month << "-" << this->date.day << endl;
 }
 void createLog(nanodbc::connection conn)
 {

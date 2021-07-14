@@ -315,7 +315,7 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		case 1: {
 			system("cls");
 			spaces(56); cout << GREEN << u8"╭─━━━━━━━━━━━━─╮" << RESET << endl;
-			spaces(56); cout << GREEN << "   Create user  " << RESET << endl;
+			spaces(56); cout << GREEN <<   " Create project " << RESET << endl;
 			spaces(56); cout << GREEN << u8"╰─━━━━━━━━━━━━─╯" << RESET << endl;
 			
 			createProject(conn);
@@ -328,7 +328,7 @@ void loginMenu(nanodbc::connection conn, USER& user)
 			if (user.id == project.idCreator or user.isAdmin)
 			{
 				spaces(56); cout << GREEN << u8"╭─━━━━━━━━━━━━─╮" << RESET << endl;
-				spaces(56); cout << GREEN << "   Edit user    " << RESET << endl;
+				spaces(56); cout << GREEN <<   " Edit project   " << RESET << endl;
 				spaces(56); cout << GREEN << u8"╰─━━━━━━━━━━━━─╯" << RESET << endl;
 				
 				editProject(conn, id);
@@ -532,7 +532,7 @@ void loginMenu(nanodbc::connection conn, USER& user)
 				editLog(conn, id);
 			}
 			else {
-				spaces(34);	cout << "You cannot edit this team :)" << endl;
+				spaces(34);	cout << "You cannot edit this work log :)" << endl;
 			}
 			break;
 		}
@@ -561,7 +561,7 @@ void loginMenu(nanodbc::connection conn, USER& user)
 				wait(400);
 			}
 			else {
-				spaces(34);	cout << "You cannot edit this team :)" << endl;
+				spaces(34);	cout << "You cannot delete this work log :)" << endl;
 			}
 			break;
 		}
@@ -711,7 +711,7 @@ void loginMenu(nanodbc::connection conn, USER& user)
 			spaces(34); cout << GREEN <<   "    List teams  " << RESET << endl;
 			spaces(34); cout << GREEN << u8"╰─━━━━━━━━━━━━─╯" << RESET << endl;
 			cout << endl;
-			listAllUsers(conn);
+			listAllTeams(conn);
 			userOptions(conn, user);
 			break;
 		}
