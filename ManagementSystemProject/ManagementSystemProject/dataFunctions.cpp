@@ -30,7 +30,7 @@ int cinNumber()
 	return stoi(line);
 }
 
-std::string timestampToString(nanodbc::timestamp ts) 
+std::string timestampToString(nanodbc::timestamp ts)
 {
 	return std::to_string(ts.year) + "-" + std::to_string(ts.month)
 		+ "-" + std::to_string(ts.day) + " " + std::to_string(ts.hour)
@@ -185,7 +185,7 @@ void deleteUser(nanodbc::connection conn)
 
 	USER::deleteUserById(conn, id);
 	cout << endl;
-	cout << GREEN <<"Deleted successfully!" << endl;
+	cout << GREEN << "Deleted successfully!" << endl;
 }
 
 //functions managing teams
@@ -353,7 +353,7 @@ void createProject(nanodbc::connection conn)
 
 	execute(statement);
 }
-void editProject(nanodbc::connection conn, const int &id)
+void editProject(nanodbc::connection conn, const int& id)
 {
 
 	nanodbc::statement statement(conn);
@@ -436,7 +436,7 @@ void PROJECTS::deleteProjectById(nanodbc::connection& conn, int& id)
 }
 PROJECTS getProjectById(nanodbc::connection conn, int& id)
 {
-	
+
 	nanodbc::statement statement(conn);
 	nanodbc::prepare(statement, NANODBC_TEXT(R"( 
         SELECT *
@@ -448,8 +448,8 @@ PROJECTS getProjectById(nanodbc::connection conn, int& id)
 	auto result = execute(statement);
 	PROJECTS project;
 	if (!result.next());
-	else{
-		
+	else {
+
 		project.id = result.get<int>("Id");
 		project.title = result.get<nanodbc::string>("Title", "");
 		project.description = result.get<nanodbc::string>("Description", "");
@@ -515,9 +515,17 @@ void createTask(nanodbc::connection conn)
 	const string description = cinLine();
 	statement.bind(3, description.c_str());
 
-	cout << "Enter task's status: ";
-	const string status = cinLine();
-	statement.bind(4, status.c_str());
+	int status;
+	do {
+		cout << "Enter task's status (0 - In Progress / 1 - Pending / 2 - Completed): ";
+		status = cinNumber();
+		if (status >= 0 and status <= 2) {
+			break;
+		}
+		cout <<RED<< "You have to ednter a digit between 0 and 2! Please, try again!" <<RESET<< endl;
+		cout << endl;
+	}while(true);
+	statement.bind(4, &status);
 
 	cout << "Enter the id of the creator: ";
 	const int idCreator = cinNumber();
@@ -556,11 +564,17 @@ void editTask(nanodbc::connection conn, const int& id)
 	cout << "Enter description: ";
 	const string description = cinLine();
 	statement.bind(1, description.c_str());
-
-	cout << "Enter new status: ";
-	const string status = cinLine();
-	statement.bind(1, status.c_str());
-
+	int status;
+	do {
+		cout << "Enter task's status (0 - In Progress / 1 - Pending / 2 - Completed): ";
+		status = cinNumber();
+		if (status >= 0 and status <= 2) {
+			break;
+		}
+		cout << RED << "You have to ednter a digit between 0 and 2! Please, try again!" << RESET << endl;
+		cout << endl;
+	} while (true);
+	statement.bind(4, &status);
 
 	cout << "Enter the id of the person that did the last change: ";
 	const int idLastChange = cinNumber();
@@ -848,9 +862,6 @@ LOGS getLogByTaskId(nanodbc::connection conn, int& taskId)
 //		cout << YELLOW << '*' << RESET;
 //}
 
-
-
-
 //functions for authentication
 USER loginDataCheck(nanodbc::connection conn, string username, string password)
 {
@@ -878,7 +889,7 @@ USER loginDataCheck(nanodbc::connection conn, string username, string password)
 
 	nanodbc::result result = nanodbc::execute(statement);
 
-	if (result.next()) 
+	if (result.next())
 	{
 		user.id = result.get<int>("Id");
 		user.username = result.get<nanodbc::string>("Username", "");
