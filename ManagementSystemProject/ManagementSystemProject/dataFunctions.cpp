@@ -44,7 +44,6 @@ void USER::displayUsers()
 	spaces(32); cout << PURPLE << " ________________________________________________________________" << RESET << endl;
 	spaces(38); cout << "User id: " << this->id << endl;
 	spaces(38); cout << "Username: " << this->username << endl;
-	spaces(38); cout << "Password: " << this->password << endl;
 	spaces(38); cout << "First Name: " << this->firstName << endl;
 	spaces(38); cout << "Last Name: " << this->lastName << endl;
 	spaces(38); cout << "Date of creation: " << timestampToString(this->dateOfCreation) << endl;
@@ -137,7 +136,6 @@ vector<USER> getUsers(nanodbc::connection conn)
 		USER user;
 		user.id = result.get<int>("Id");
 		user.username = result.get<nanodbc::string>("Username", "");
-		user.password = result.get<nanodbc::string>("Password", "");
 		user.firstName = result.get<nanodbc::string>("FirstName", "");
 		user.lastName = result.get<nanodbc::string>("LastName", "");
 		user.dateOfCreation = result.get<nanodbc::timestamp>("DateOfCreation", nanodbc::timestamp{});
