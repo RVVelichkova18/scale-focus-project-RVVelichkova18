@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <conio.h>
 #include <exception> 
 #include "dataFunctions.h"
 #include "dataStructures.h"
@@ -433,16 +434,7 @@ void PROJECTS::deleteProjectById(nanodbc::connection& conn, int& id)
 	auto result = execute(statement);
 
 }
-void deleteProject(nanodbc::connection conn)
-{
-
-	nanodbc::statement statement(conn);
-	cout << "Enter id of the project that you want delete: " << endl;
-	int id = cinNumber();
-
-	PROJECTS::deleteProjectById(conn, id);
-}
-PROJECTS getProject(nanodbc::connection conn, int& id)
+PROJECTS getProjectById(nanodbc::connection conn, int& id)
 {
 	
 	nanodbc::statement statement(conn);
@@ -502,9 +494,9 @@ void createTask(nanodbc::connection conn)
 	nanodbc::prepare(statement, NANODBC_TEXT(R"(
         INSERT INTO
            [ManagementSystemProject].[dbo].[Tasks]
-            (ProjectId, UserId, Title, Description, DateOfCreation, IdCreator, DateLastChange, IdLastCHange)
+            (ProjectId, UserId, Title, Description, DateOfCreation, Status, IdCreator, DateLastChange, IdLastCHange)
             VALUES
-            ( ?, ?, ?, ?, GETDATE(), ?, GETDATE(), ?)
+            ( ?, ?, ?, ?, GETDATE(), ?, ?, GETDATE(), ?)
     )"));
 
 	cout << "Enter project id: ";
@@ -537,15 +529,12 @@ void createTask(nanodbc::connection conn)
 
 	execute(statement);
 }
-void editTask(nanodbc::connection conn)
+void editTask(nanodbc::connection conn, const int& id)
 {
 
 	nanodbc::statement statement(conn);
-
-	cout << "Enter id of the task that you want edit: " << endl;
-	const int id = cinNumber();
 	nanodbc::prepare(statement, NANODBC_TEXT(R"(
-      UPDATE [ManagementSystemProject].[dbo].[Projects]
+      UPDATE [ManagementSystemProject].[dbo].[Tasks]
 	  SET
 			UserId = ?
 			,Title = ?
@@ -635,14 +624,35 @@ void TASKS::deleteTaskById(nanodbc::connection& conn, int& id)
 	auto result = execute(statement);
 
 }
-void deleteTask(nanodbc::connection conn)
+TASKS getTaskById(nanodbc::connection conn, int& id)
 {
 
 	nanodbc::statement statement(conn);
-	cout << "Enter id of the task that you want delete: " << endl;
-	int id = cinNumber();
+	nanodbc::prepare(statement, NANODBC_TEXT(R"( 
+        SELECT *
+            FROM [ManagementSystemProject].[dbo].[Tasks]
+		WHERE Id=?
+    )"));
 
-	TASKS::deleteTaskById(conn, id);
+	statement.bind(0, &id);
+	auto result = execute(statement);
+	TASKS task;
+	if (!result.next());
+	else {
+
+		task.id = result.get<int>("Id");
+		task.projectId = result.get<int>("ProjectId");
+		task.userId = result.get<int>("UserId");
+		task.title = result.get<nanodbc::string>("Title", "");
+		task.description = result.get<nanodbc::string>("Description", "");
+		task.status = (TASK_STATUS)result.get<int>("Status");
+		task.dateOfCreation = result.get<nanodbc::timestamp>("DateOfCreation", nanodbc::timestamp{});
+		task.idCreator = result.get<int>("IdCreator", 0);
+		task.dateOfLastChange = result.get<nanodbc::timestamp>("DateLastChange", nanodbc::timestamp{});
+		task.idLastChange = result.get<int>("IdLastChange", 0);
+	}
+
+	return task;
 }
 
 //functions managing work logs
@@ -692,13 +702,10 @@ void createLog(nanodbc::connection conn)
 
 	execute(statement);
 }
-void editLog(nanodbc::connection conn)
+void editLog(nanodbc::connection conn, const int& id)
 {
 
 	nanodbc::statement statement(conn);
-
-	cout << "Enter id of the work log that you want edit: " << endl;
-	const int id = cinNumber();
 	nanodbc::prepare(statement, NANODBC_TEXT(R"(
       UPDATE [ManagementSystemProject].[dbo].[WorkLog]
 	  SET
@@ -736,7 +743,7 @@ vector<LOGS> getLogs(nanodbc::connection conn)
 	nanodbc::statement statement(conn);
 	nanodbc::prepare(statement, NANODBC_TEXT(R"( 
         SELECT *
-            FROM [ManagementSystemProject].[dbo].[Projects]
+            FROM [ManagementSystemProject].[dbo].[WorkLog]
 			WHERE isDeleted<>1
     )"));
 
@@ -778,17 +785,98 @@ void LOGS::deleteLogById(nanodbc::connection& conn, int& id)
 	auto result = execute(statement);
 
 }
-void deleteLog(nanodbc::connection conn)
+LOGS getLogById(nanodbc::connection conn, int& id)
 {
 
 	nanodbc::statement statement(conn);
-	cout << "Enter id of the work log that you want delete: " << endl;
-	int id = cinNumber();
+	nanodbc::prepare(statement, NANODBC_TEXT(R"( 
+        SELECT *
+            FROM [ManagementSystemProject].[dbo].[WorkLog]
+		WHERE Id=?
+    )"));
 
-	LOGS::deleteLogById(conn, id);
+	statement.bind(0, &id);
+	auto result = execute(statement);
+	LOGS log;
+	if (!result.next());
+	else {
+
+		log.id = result.get<int>("Id");
+		log.taskId = result.get<int>("TaskId");
+		log.userId = result.get<int>("UserId");
+		log.time = result.get<int>("Time");
+		log.date = result.get<nanodbc::date>("Date");
+	}
+
+	return log;
+}
+LOGS getLogByTaskId(nanodbc::connection conn, int& taskId)
+{
+
+	nanodbc::statement statement(conn);
+	nanodbc::prepare(statement, NANODBC_TEXT(R"( 
+        SELECT *
+            FROM [ManagementSystemProject].[dbo].[WorkLog]
+		WHERE TaskId = ?
+    )"));
+
+	statement.bind(0, &taskId);
+	auto result = execute(statement);
+	LOGS log;
+	if (!result.next());
+	else {
+
+		log.id = result.get<int>("Id");
+		log.taskId = result.get<int>("TaskId");
+		log.userId = result.get<int>("UserId");
+		log.time = result.get<int>("Time");
+		log.date = result.get<nanodbc::date>("Date");
+	}
+
+	return log;
 }
 
-
+////password
+//void enterPassword(int* code)
+//{
+//	string    = "";
+//	int digit;
+//
+//	while (strCode.size() < 9)
+//	{
+//
+//		digit = _getch();
+//		cout << YELLOW << '*' << RESET;
+//
+//		while (digit < 48 or digit>57)
+//		{
+//			cout << endl;
+//			strCode = "";
+//			cout << endl << RED <<"ups"<< RESET << RESET;
+//			digit = _getch();
+//			cout << YELLOW << '*' << RESET;
+//		}
+//
+//		while (digit > 55)
+//		{
+//			cout << endl;
+//			strCode = "";
+//			cout << endl << RED << "You have to enter a digit between 0 and 7! Please, try again: " << RESET;
+//			digit = _getch();
+//			cout << YELLOW << '*' << RESET;
+//		}
+//
+//		strCode.push_back(digit);
+//
+//		cout << " ";
+//
+//	}
+//	cout << endl;
+//	for (int i = 0; i < 4; i++)
+//	{
+//		code[i] = strCode[i] - 48;
+//	}
+//}
 //functions for authentication
 USER loginDataCheck(nanodbc::connection conn, string username, string password)
 {

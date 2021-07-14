@@ -15,4 +15,5 @@ void wait(int delay = 350);
 bool adminOptions(nanodbc::connection conn, USER& user);
 bool userOptions(nanodbc::connection conn, USER& user);
 void loginMenu(nanodbc::connection conn, USER& user);
-PROJECTS getProject(nanodbc::connection conn, int& id);
+void displayLogsManagement();
+bool logManagement(nanodbc::connection conn, USER& user);

@@ -37,21 +37,22 @@ void createProject(nanodbc::connection conn);
 void editProject(nanodbc::connection conn, const int& id);
 std::vector<PROJECTS> getProjects(nanodbc::connection conn);
 void listAllProjects(nanodbc::connection conn);
-void deleteProject(nanodbc::connection conn);
+PROJECTS getProjectById(nanodbc::connection conn, int& id);
 
 //tasks
 void createTask(nanodbc::connection conn);
-void editTask(nanodbc::connection conn);
+void editTask(nanodbc::connection conn, const int& id);
 std::vector<TASKS> getTasks(nanodbc::connection conn);
 void listAllTasks(nanodbc::connection conn);
-void deleteTask(nanodbc::connection conn);
+TASKS getTaskById(nanodbc::connection conn, int& id);
 
 //logs
 void createLog(nanodbc::connection conn);
-void editLog(nanodbc::connection conn);
+void editLog(nanodbc::connection conn, const int& id);
 std::vector<LOGS> getLogs(nanodbc::connection conn);
 void listAllLogs(nanodbc::connection conn);
-void deleteLog(nanodbc::connection conn);
+LOGS getLogById(nanodbc::connection conn, int& id);
+LOGS getLogByTaskId(nanodbc::connection conn, int& taskId);
 
 //login
 USER loginDataCheck(nanodbc::connection conn, std::string username, std::string pass);

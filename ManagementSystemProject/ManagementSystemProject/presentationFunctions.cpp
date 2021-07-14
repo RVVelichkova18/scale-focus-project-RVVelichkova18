@@ -1,14 +1,34 @@
-#include <nanodbc.h>
+﻿#include <nanodbc.h>
 #include <iostream>
 #include <string>
 #include <vector>
 #include <exception> 
 #include <chrono>
 #include <thread>
+#include <windows.h>
+#include <conio.h>
 #include "dataStructures.h"
 #include "presentationFunctions.h"
 using namespace std;
 
+void cursor(int column, int line)
+{
+	COORD coord;
+	coord.X = column;
+	coord.Y = line;
+	SetConsoleCursorPosition(
+		GetStdHandle(STD_OUTPUT_HANDLE),
+		coord
+	);
+}
+
+void spaces(int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		cout << " ";
+	}
+}
 
 void wait(int delay)
 {
@@ -18,14 +38,64 @@ void wait(int delay)
 	}
 }
 
+void displayGreeting()
+{
+	spaces(20); cout << u8"                                                                                      " << endl;
+	spaces(20); cout << u8"                                                                                      " << endl;
+	spaces(32); cout <<BLUE<< u8"■■■■■■  ■■■■■■    ■■■     ■■■■■  ■■■■■  ■■■■■  ■■■■■■   ■■■■■■" <<RESET<<endl;
+	spaces(32); cout <<BLUE<< u8"■■  ■■  ■■  ■■  ■■   ■■      ■■  ■■     ■■       ■■     ■■    " <<RESET<<endl;
+	spaces(32); cout <<BLUE<< u8"■■■■■■  ■■■■■■  ■■   ■■      ■■  ■■■■   ■■       ■■     ■■■■■■" <<RESET<<endl;
+	spaces(32); cout <<BLUE<< u8"■■      ■■ ■■   ■■   ■■  ■■  ■■  ■■     ■■       ■■         ■■" <<RESET<<endl;
+	spaces(32); cout <<BLUE<< u8"■■      ■■  ■■    ■■■    ■■■■■■  ■■■■■  ■■■■■    ■■     ■■■■■■" <<RESET<<endl;
+	wait(450);
+	spaces(20); cout <<u8"                                                                                     " << endl;
+	spaces(20); cout <<u8"                                                                                     " << endl;
+	spaces(20); cout <<u8"■■     ■■   ■■■■■   ■■   ■■   ■■■■■   ■■■■■■  ■■■■■  ■■     ■■  ■■■■■  ■■   ■■  ■■■■■■"  <<endl;
+	spaces(20); cout <<u8"■■■   ■■■  ■■   ■■  ■■■  ■■  ■■   ■■  ■■      ■■     ■■■   ■■■  ■■     ■■■  ■■    ■■  "  <<endl;
+	spaces(20); cout <<u8"■■ ■■■ ■■  ■■■■■■■  ■■ ■ ■■  ■■■■■■■  ■■ ■■■  ■■■■   ■■ ■■■ ■■  ■■■■   ■■ ■ ■■    ■■  "  <<endl;
+	spaces(20); cout <<u8"■■  ■  ■■  ■■   ■■  ■■  ■■■  ■■   ■■  ■■  ■■  ■■     ■■  ■  ■■  ■■     ■■  ■■■    ■■  "  <<endl;
+	spaces(20); cout <<u8"■■     ■■  ■■   ■■  ■■   ■■  ■■   ■■  ■■■■■■  ■■■■■  ■■     ■■  ■■■■■  ■■   ■■    ■■  "  <<endl;
+	wait(450);
+	spaces(20); cout << u8"                                                                                      " << endl;
+	spaces(20); cout << u8"                                                                                      " << endl; 
+	spaces(38); cout <<BLUE<< u8"■■■■■■  ■■  ■■  ■■■■■■  ■■■■■■  ■■■■■  ■■     ■■" <<RESET<<endl;
+	spaces(38); cout <<BLUE<< u8"■■      ■■  ■■  ■■        ■■    ■■     ■■■   ■■■" <<RESET<<endl;
+	spaces(38); cout <<BLUE<< u8"■■■■■■  ■■■■■■  ■■■■■■    ■■    ■■■■   ■■ ■■■ ■■" <<RESET<<endl;
+	spaces(38); cout <<BLUE<< u8"    ■■      ■■      ■■    ■■    ■■     ■■  ■  ■■" <<RESET<<endl;
+	spaces(38); cout <<BLUE<< u8"■■■■■■  ■■■■■■  ■■■■■■    ■■    ■■■■■  ■■     ■■" <<RESET<<endl;
+	wait(450);
+									  
+}
+void displayLogin()
+{
+	spaces(34);  cout << endl;
+	spaces(34);  cout << YELLOW << "-------------------------------------------------------" << RESET << endl;
+	spaces(34);  cout << YELLOW << "|                                                     |" << RESET << endl;
+	spaces(34);  cout << YELLOW << u8"|                   L  O  G  I  N                     |" << RESET << endl;
+	spaces(34);  cout << YELLOW << "|                                                     |" << RESET << endl;
+	spaces(34);  cout << YELLOW << "|             Username:                               |" << RESET << endl;
+	spaces(34);  cout << YELLOW << "|                                                     |" << RESET << endl;
+	spaces(34);  cout << YELLOW << "|                                                     |" << RESET << endl;
+	spaces(34);  cout << YELLOW << "|             Password:                               |" << RESET << endl;
+	spaces(34);  cout << YELLOW << "|                                                     |" << RESET << endl;
+	spaces(34);  cout << YELLOW << "|                                                     |" << RESET << endl;
+	spaces(34);  cout << YELLOW << "-------------------------------------------------------" << RESET << endl;
+}
+
 void loginMenu(nanodbc::connection conn, USER& user)
 {
-
-	cout << "Enter the username: ";
+	displayGreeting();
+	/*string username = "sandonova";
+	string  password = "sandonovapass";*/
+	displayLogin();
+	cursor(59,26);	
 	string username = cinLine();
-	cout << "Enter the password: ";
-	string  password = cinLine();
-
+	cursor(59, 29);
+	string password = cinLine();
+	cout << endl;
+	cout << endl;
+	wait(400);
+	system("cls");
 	user = loginDataCheck(conn, username, password);
 
 	if (user.id > 0)
@@ -40,7 +110,9 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		}
 	} 
 	else {
-		cout << "Incorrect username or password! Please, try again!"<<endl;
+		
+		spaces(34); cout << RED << "Incorrect username or password! Please, try again!" << RESET << endl;
+		wait(700);
 		system("cls");
 		loginMenu(conn, user);
 	}
@@ -51,11 +123,12 @@ void loginMenu(nanodbc::connection conn, USER& user)
 
 	void displayUsersManagement()
 	{
-		cout << "1) Add new user" << endl;
-		cout << "2) Edit user by Id" << endl;
-		cout << "3) List all users" << endl;
-		cout << "4) Delete user by Id" << endl;
-		cout << "5) Return back" << endl;
+		cout << endl;
+		spaces(34); cout << "1) Add new user" << endl;
+		spaces(34); cout << "2) Edit user by Id" << endl;
+		spaces(34); cout << "3) List all users" << endl;
+		spaces(34); cout << "4) Delete user by Id" << endl;
+		spaces(34); cout << "5) Return back" << endl;
 	}
 	bool usersManagement(nanodbc::connection conn, USER& user)
 	{
@@ -105,17 +178,18 @@ void loginMenu(nanodbc::connection conn, USER& user)
 
 	void displayTeamsManagement()
 	{
-		cout << "1) Add new team" << endl;
-		cout << "2) Edit team by Id" << endl;
-		cout << "3) List all teams" << endl;
-		cout << "4) Delete team by Id" << endl;
-		cout << "5) Return back" << endl;
+		cout << endl;
+		spaces(34); cout << "1) Add new team" << endl;
+		spaces(34); cout << "2) Edit team by Id" << endl;
+		spaces(34); cout << "3) List all teams" << endl;
+		spaces(34); cout << "4) Delete team by Id" << endl;
+		spaces(34); cout << "5) Return back" << endl;
 	}
 	bool teamsManagement(nanodbc::connection conn, USER& user)
 	{
 		displayTeamsManagement();
 		int choice;
-		cout << "Enter an option: ";
+		spaces(34); cout << "Enter an option: ";
 		string line;
 		getline(cin, line);
 		choice = stoi(line);
@@ -134,7 +208,7 @@ void loginMenu(nanodbc::connection conn, USER& user)
 				editTeam(conn);
 			}
 			else {
-				cout << "You cannot edit this team :)"<<endl;
+				spaces(34); cout << "You cannot edit this team :)"<<endl;
 			}
 			break;
 		}
@@ -150,14 +224,14 @@ void loginMenu(nanodbc::connection conn, USER& user)
 				deleteTeam(conn);
 			}
 			else {
-				cout << "You cannot edit this team :)" << endl;
+				spaces(34); cout << "You cannot edit this team :)" << endl;
 			}
 			break;
 		}
 		case 5:
 			return false;
 		default:
-			cout << "Try again! " << endl;
+			spaces(34); cout << "Try again! " << endl;
 		}
 
 		return true;
@@ -167,17 +241,18 @@ void loginMenu(nanodbc::connection conn, USER& user)
 
 	void displayProjectsManagement()
 	{
-		cout << "1) Add new project" << endl;
-		cout << "2) Edit project by Id" << endl;
-		cout << "3) List all projects" << endl;
-		cout << "4) Delete projects by Id" << endl;
-		cout << "5) Return back" << endl;
+		cout << endl;
+		spaces(34); cout << "1) Add new project" << endl;
+		spaces(34); cout << "2) Edit project by Id" << endl;
+		spaces(34); cout << "3) List all projects" << endl;
+		spaces(34); cout << "4) Delete projects by Id" << endl;
+		spaces(34); cout << "5) Return back" << endl;
 	}
 	bool projectsManagement(nanodbc::connection conn, USER& user)
 	{
 		displayProjectsManagement();
 		int choice;
-		cout << "Enter an option: ";
+		spaces(34); cout << "Enter an option: ";
 		string line;
 		getline(cin, line);
 		choice = stoi(line);
@@ -191,15 +266,15 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		}
 		case 2: {
 			system("cls");
-			cout << "Enter id of the project that you want edit: " << endl;
+			spaces(34); cout << "Enter id of the project that you want edit: " << endl;
 			int id = cinNumber();
-			PROJECTS project = getProject(conn, id);
+			PROJECTS project = getProjectById(conn, id);
 			if (user.id == project.idCreator or user.isAdmin)
 			{
 				editProject(conn, id);
 			}
 			else {
-				cout << "You cannot edit this team :)" << endl;
+				spaces(34); cout << "You cannot edit this team :)" << endl;
 			}
 			break;
 		}
@@ -210,19 +285,21 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		}
 		case 4: {
 			system("cls");
+			spaces(34); cout << "Enter id of the project that you want delete: " << endl;
+			int id = cinNumber();
 			if (user.id == user.idCreator or user.isAdmin)
 			{
-				deleteProject(conn);
+					PROJECTS::deleteProjectById(conn, id);
 			}
 			else {
-				cout << "You cannot edit this team :)" << endl;
+				spaces(34);	cout << "You cannot delete this team :)" << endl;
 			}
 			break;
 		}
 		case 5:
 			return false;
 		default:
-			cout << "Try again! " << endl;
+			spaces(34);	cout << "Try again! " << endl;
 		}
 
 		return true;
@@ -232,17 +309,19 @@ void loginMenu(nanodbc::connection conn, USER& user)
 
 	void displayTasksManagement()
 	{
-		cout << "1) Add new task" << endl;
-		cout << "2) Edit task by Id" << endl;
-		cout << "3) List all tasks" << endl;
-		cout << "4) Delete task by Id" << endl;
-		cout << "5) Return back" << endl;
+		cout << endl;
+		spaces(34); cout << "1) Add new task" << endl;
+		spaces(34); cout << "2) Edit task by Id" << endl;
+		spaces(34); cout << "3) List all tasks" << endl;
+		spaces(34); cout << "4) Delete task by Id" << endl;
+		spaces(34); cout << "5) View work logs for task by Id" << endl;
+		spaces(34); cout << "6) Return back" << endl;
 	}
 	bool tasksManagement(nanodbc::connection conn, USER& user)
 	{
 		displayTasksManagement();
 		int choice;
-		cout << "Enter an option: ";
+		spaces(34); cout << "Enter an option: ";
 		string line;
 		getline(cin, line);
 		choice = stoi(line);
@@ -256,12 +335,16 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		}
 		case 2: {
 			system("cls");
-			if (user.id == user.idCreator or user.isAdmin)
+
+			spaces(34); cout << "Enter id of the task that you want edit: " << endl;
+			 int id = cinNumber();
+			 TASKS task = getTaskById(conn, id);
+			if (user.id == task.idCreator or user.isAdmin)
 			{
-				editTask(conn);
+				editTask(conn, id);
 			}
 			else {
-				cout << "You cannot edit this team :)" << endl;
+				spaces(34);	cout << "You cannot edit this task :)" << endl;
 			}
 			break;
 		}
@@ -272,39 +355,57 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		}
 		case 4: {
 			system("cls");
-			if (user.id == user.idCreator or user.isAdmin)
+			spaces(34); cout << "Enter id of the task that you want delete: " << endl;
+			int id = cinNumber();
+			TASKS task = getTaskById(conn, id);
+			if (user.id == task.idCreator or user.isAdmin)
 			{
-				deleteTask(conn);
+				TASKS::deleteTaskById(conn, id);
 			}
 			else {
-				cout << "You cannot edit this team :)" << endl;
+				spaces(34);	cout << "You cannot delete this task :)" << endl;
 			}
 			break;
 		}
-		case 5:
+		case 5: {
+			system("cls");
+			spaces(34); cout << "Enter id of the task that you want work log for: " << endl;
+			int id = cinNumber();
+			TASKS task = getTaskById(conn, id);
+			LOGS log = getLogByTaskId(conn, task.id);
+			if (task.id == log.taskId)
+			{
+				logManagement(conn, user);
+			}
+			else {
+				spaces(34);	cout << "You cannot see this work log :)" << endl;
+			}
+			break;
+		}
+		case 6:
 			return false;
 		default:
-			cout << "Try again! " << endl;
+			spaces(34); cout << "Try again! " << endl;
 		}
 
 		return true;
 	}
 
 	//LOGS
-
 	void displayLogsManagement()
 	{
-		cout << "1) Add new work log" << endl;
-		cout << "2) Edit work log by Id" << endl;
-		cout << "3) List all work logs" << endl;
-		cout << "4) Delete work log by Id" << endl;
-		cout << "5) Return back" << endl;
+		cout << endl;
+		spaces(34); cout << "1) Add new work log" << endl;
+		spaces(34); cout << "2) Edit work log by Id" << endl;
+		spaces(34); cout << "3) List all work logs" << endl;
+		spaces(34); cout << "4) Delete work log by Id" << endl;
+		spaces(34); cout << "5) Return back" << endl;
 	}
 	bool logManagement(nanodbc::connection conn, USER& user)
 	{
 		displayLogsManagement();
 		int choice;
-		cout << "Enter an option: ";
+		spaces(34); cout << "Enter an option: ";
 		string line;
 		getline(cin, line);
 		choice = stoi(line);
@@ -318,12 +419,15 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		}
 		case 2: {
 			system("cls");
-			if (user.id == user.idCreator or user.isAdmin)
+			spaces(34);	cout << "Enter id of the task that you want edit: " << endl;
+			int id = cinNumber();
+			LOGS log = getLogById(conn, id);
+			if (user.id == log.userId or user.isAdmin)
 			{
-				editLog(conn);
+				editLog(conn, id);
 			}
 			else {
-				cout << "You cannot edit this team :)" << endl;
+				spaces(34);	cout << "You cannot edit this team :)" << endl;
 			}
 			break;
 		}
@@ -334,19 +438,22 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		}
 		case 4: {
 			system("cls");
-			if (user.id == user.idCreator or user.isAdmin)
+			spaces(34);	cout << "Enter id of the task that you want edit: " << endl;
+		    int id = cinNumber();
+			LOGS log = getLogById(conn, id);
+			if (user.id == log.userId or user.isAdmin)
 			{
-				deleteLog(conn);
+				LOGS::deleteLogById(conn, id);
 			}
 			else {
-				cout << "You cannot edit this team :)" << endl;
+				spaces(34);	cout << "You cannot edit this team :)" << endl;
 			}
 			break;
 		}
 		case 5:
 			return false;
 		default:
-			cout << "Try again! " << endl;
+			spaces(34);	cout << "Try again! " << endl;
 		}
 
 		return true;
@@ -355,19 +462,20 @@ void loginMenu(nanodbc::connection conn, USER& user)
 
 	void displayAdminOptions()
 	{
-		cout << "1) Users management" << endl;
-		cout << "2) Teams management" << endl;
-		cout << "3) Projects management" << endl;
-		cout << "4) Tasks management" << endl;
-		cout << "5) Work log management" << endl;
-		cout << "6) Exit" << endl;
+		cout << endl;
+		spaces(34); cout << "1) Users management" << endl;
+		spaces(34); cout << "2) Teams management" << endl;
+		spaces(34); cout << "3) Projects management" << endl;
+		spaces(34); cout << "4) Tasks management" << endl;
+		spaces(34); cout << "5) Work log management" << endl;
+		spaces(34); cout << "6) Exit" << endl;
 	}
 
 	bool adminOptions(nanodbc::connection conn, USER& user)
 	{
 		displayAdminOptions();
 		int choice;
-		cout << "Enter an option: ";
+		spaces(34); cout << "Enter an option: ";
 		string line;
 		getline(cin, line);
 		choice = stoi(line);
@@ -407,7 +515,7 @@ void loginMenu(nanodbc::connection conn, USER& user)
 		case 6:
 			return false;
 		default:
-			cout << "Try again! " << endl;
+			spaces(34);	cout << "Try again! " << endl;
 		}
 
 		return true;
@@ -415,17 +523,17 @@ void loginMenu(nanodbc::connection conn, USER& user)
 
 	void displayUserOptions()
 	{
-		cout << "1) Projects management" << endl;
-		cout << "2) Tasks management" << endl;
-		cout << "3) Work log management" << endl;
-		cout << "4) Exit" << endl;
+		cout << endl;
+		spaces(34); cout << "1) Projects management" << endl;
+		spaces(34); cout << "2) Tasks management" << endl;
+		spaces(34); cout << "3) Exit" << endl;
 	}
 
 	bool userOptions(nanodbc::connection conn,USER& user)
 	{
 		displayUserOptions();
 		int choice;
-		cout << "Enter an option: ";
+		spaces(34); cout << "Enter an option: ";
 		string line;
 		getline(cin, line);
 		choice = stoi(line);
@@ -445,16 +553,10 @@ void loginMenu(nanodbc::connection conn, USER& user)
 			userOptions(conn, user);
 			break;
 		}
-		case 3: {
-			system("cls");
-			logManagement(conn, user);
-			userOptions(conn, user);
-			break;
-		}
-		case 4:
+		case 3:
 			return false;
 		default:
-			cout << "Try again! " << endl;
+			spaces(34);	cout << "Try again! " << endl;
 		}
 
 		return true;
